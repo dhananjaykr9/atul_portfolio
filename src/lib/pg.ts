@@ -38,6 +38,10 @@ export const pgPool =
   globalCache.__teacherPortfolioPgPool__ ??
   new Pool({
     connectionString: normalizeDatabaseUrl(databaseUrl),
+    max: Number(process.env.PG_POOL_MAX ?? (process.env.NODE_ENV === 'production' ? 3 : 5)),
+    idleTimeoutMillis: 10_000,
+    connectionTimeoutMillis: 10_000,
+    allowExitOnIdle: true,
   });
 
 if (process.env.NODE_ENV !== 'production') {

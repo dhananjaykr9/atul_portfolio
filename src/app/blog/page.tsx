@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Container from "@/components/Container";
+import BlogSubscribeForm from "@/app/blog/BlogSubscribeForm";
 import { prisma } from "@/lib/prisma";
 import { withDatabaseFallback } from "@/lib/public-data";
 import type { BlogPost } from "@prisma/client";
@@ -12,7 +13,12 @@ export default async function Blog() {
     "blog posts",
     () =>
       prisma.blogPost.findMany({ 
-        where: { published: true },
+        where: {
+          published: true,
+          date: {
+            lte: new Date(),
+          },
+        },
         orderBy: { date: 'desc' }
       }),
     [] as BlogPost[]
@@ -41,7 +47,7 @@ export default async function Blog() {
         </section>
 
         <Container className="py-24">
-          <div className="max-w-5xl mx-auto">
+          <div className="mx-auto max-w-5xl space-y-14">
             {posts.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                 {posts.map((post: BlogPost, idx: number) => (
@@ -105,6 +111,26 @@ export default async function Blog() {
                 <p className="text-oxford-blue/60 font-sans max-w-sm mx-auto">Check back soon for scholarly insights and pedagogical reflections.</p>
               </div>
             )}
+
+            <section className="relative overflow-hidden rounded-[40px] bg-[linear-gradient(135deg,#102644_0%,#183457_55%,#20456f_100%)] px-8 py-10 text-ivory shadow-[0_28px_70px_-28px_rgba(15,31,56,0.55)] sm:px-10">
+              <div className="absolute -right-10 top-0 h-36 w-36 rounded-full bg-deep-gold/12 blur-3xl" />
+              <div className="absolute -left-10 bottom-0 h-32 w-32 rounded-full bg-white/10 blur-3xl" />
+              <div className="relative grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+                <div className="space-y-4">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-deep-gold">Stay Updated</p>
+                  <h3 className="text-3xl font-serif font-bold leading-tight sm:text-4xl">
+                    Receive new blog updates in your inbox.
+                  </h3>
+                  <p className="max-w-2xl text-sm leading-7 text-ivory/78 sm:text-[15px]">
+                    Subscribe with your email to keep track of newly published essays, reflections, and literary insights from Dr. Atul M. Gavaskar.
+                  </p>
+                </div>
+
+                <div className="rounded-[30px] border border-white/10 bg-white/8 p-5 backdrop-blur-sm sm:p-6">
+                  <BlogSubscribeForm />
+                </div>
+              </div>
+            </section>
           </div>
         </Container>
       </main>

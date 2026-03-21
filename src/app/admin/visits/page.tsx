@@ -29,12 +29,16 @@ export default async function AdminVisitsPage() {
           <h2 className="mt-2 text-3xl font-serif font-bold text-oxford-blue">Traffic summary</h2>
           <p className="mt-6 text-5xl font-serif font-bold text-oxford-blue">{totalVisits}</p>
           <p className="mt-2 text-sm text-oxford-blue/60">
-            {enabled ? 'Total public-page visits stored in the database.' : 'Run Prisma generate to enable visit tracking.'}
+            {enabled
+              ? 'Total public-page visits stored in the database.'
+              : 'Visit tracking is temporarily unavailable while the database connection is recovering.'}
           </p>
 
           <div className="mt-8 space-y-3">
             {!enabled ? (
-              <p className="rounded-2xl bg-ivory px-4 py-5 text-sm text-oxford-blue/60">The Visit model is not in the generated Prisma client yet.</p>
+              <p className="rounded-2xl bg-ivory px-4 py-5 text-sm text-oxford-blue/60">
+                The visits database is not reachable right now. Refresh in a moment and the latest traffic should reappear.
+              </p>
             ) : topPaths.length === 0 ? (
               <p className="rounded-2xl bg-ivory px-4 py-5 text-sm text-oxford-blue/60">No visit data yet.</p>
             ) : (
@@ -54,7 +58,9 @@ export default async function AdminVisitsPage() {
 
           <div className="mt-6 space-y-3">
             {!enabled ? (
-              <p className="rounded-2xl bg-ivory px-4 py-6 text-sm text-oxford-blue/60">Visits will start appearing here after regenerating Prisma and opening public pages.</p>
+              <p className="rounded-2xl bg-ivory px-4 py-6 text-sm text-oxford-blue/60">
+                Visit logs are paused until the database connection comes back. The page will recover automatically once Supabase responds again.
+              </p>
             ) : visits.length === 0 ? (
               <p className="rounded-2xl bg-ivory px-4 py-6 text-sm text-oxford-blue/60">Open the public site and visits will appear here.</p>
             ) : (
@@ -67,10 +73,7 @@ export default async function AdminVisitsPage() {
                       <p className="text-xs uppercase tracking-[0.18em] text-oxford-blue/40">IP: {visit.ip ?? 'Unavailable'}</p>
                     </div>
                     <p className="text-sm font-bold text-deep-gold">
-                      {new Intl.DateTimeFormat('en-IN', {
-                        dateStyle: 'medium',
-                        timeStyle: 'short',
-                      }).format(visit.visitedAt)}
+                      {visit.visitedAtLabel ? `${visit.visitedAtLabel} IST` : 'Time unavailable'}
                     </p>
                   </div>
                 </div>

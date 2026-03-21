@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
+import { sendBlogBroadcastViaAppsScript } from '@/lib/google-apps-script';
 import {
   clearAdminSession,
   isAdminConfigured,
@@ -34,6 +35,35 @@ function getBoolean(formData: FormData, key: string) {
   return formData.get(key) === 'on';
 }
 
+function parseIstDateTimeInput(value: string) {
+  const normalized = value.trim();
+
+  if (!normalized) {
+    return null;
+  }
+
+  const match = normalized.match(
+    /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})$/
+  );
+
+  if (!match) {
+    return null;
+  }
+
+  const [, year, month, day, hour, minute] = match;
+  const utcTimestamp =
+    Date.UTC(
+      Number(year),
+      Number(month) - 1,
+      Number(day),
+      Number(hour),
+      Number(minute)
+    ) -
+    (5 * 60 + 30) * 60 * 1000;
+
+  return new Date(utcTimestamp);
+}
+
 function slugify(value: string) {
   return value
     .toLowerCase()
@@ -45,6 +75,13 @@ function slugify(value: string) {
 function buildFallbackSlug(title: string) {
   const slug = slugify(title);
   return slug || `post-${Date.now()}`;
+}
+
+function parseEmailList(value: string) {
+  return value
+    .split(/[\n,;]+/)
+    .map((entry) => entry.trim())
+    .filter(Boolean);
 }
 
 function revalidatePublicSite() {
@@ -282,6 +319,10 @@ export async function createBlogPostAction(formData: FormData) {
   const title = getString(formData, 'title');
   const requestedSlug = getString(formData, 'slug');
   const slug = requestedSlug || buildFallbackSlug(title);
+  const scheduledFor = parseIstDateTimeInput(getString(formData, 'publishAt'));
+  const publishImmediately = getBoolean(formData, 'published');
+  const effectivePublishDate = scheduledFor ?? new Date();
+  const shouldPublish = publishImmediately || Boolean(scheduledFor);
 
   await prisma.blogPost.create({
     data: {
@@ -293,7 +334,8 @@ export async function createBlogPostAction(formData: FormData) {
       author: getString(formData, 'author') || 'Dr. Atul M. Gavaskar',
       readTime: getString(formData, 'readTime') || '5 min read',
       language: getString(formData, 'language') || 'English',
-      published: getBoolean(formData, 'published'),
+      date: effectivePublishDate,
+      published: shouldPublish,
     },
   });
 
@@ -329,6 +371,68 @@ export async function deleteBlogPostAction(formData: FormData) {
 
   revalidatePath('/blog');
   revalidatePath('/admin/blog');
+}
+
+
+export type BlogBroadcastState = {
+  status: 'idle' | 'success' | 'error';
+  message: string;
+};
+
+export async function sendBlogBroadcastAction(
+  _previousState: BlogBroadcastState,
+  formData: FormData
+): Promise<BlogBroadcastState> {
+  await requireAdmin();
+
+  const subject = getString(formData, 'subject');
+  const headline = getString(formData, 'headline');
+  const message = getString(formData, 'message');
+  const ctaLabel = getOptionalString(formData, 'ctaLabel');
+  const ctaUrl = getOptionalString(formData, 'ctaUrl');
+  const recipientMode = getString(formData, 'recipientMode') === 'manual' ? 'manual' : 'all';
+  const recipients = parseEmailList(getString(formData, 'recipients'));
+
+  if (!subject || !headline || !message) {
+    return {
+      status: 'error',
+      message: 'Subject, headline, and message are required before sending.',
+    };
+  }
+
+  if (recipientMode === 'manual' && recipients.length === 0) {
+    return {
+      status: 'error',
+      message: 'Add at least one recipient email for manual sending.',
+    };
+  }
+
+  try {
+    await sendBlogBroadcastViaAppsScript({
+      subject,
+      headline,
+      message,
+      ctaLabel,
+      ctaUrl,
+      recipientMode,
+      recipients,
+    });
+
+    return {
+      status: 'success',
+      message:
+        recipientMode === 'all'
+          ? 'Broadcast sent to all saved subscribers.'
+          : `Broadcast sent to ${recipients.length} recipient${recipients.length === 1 ? '' : 's'}.`,
+    };
+  } catch (error) {
+    console.error(error);
+
+    return {
+      status: 'error',
+      message: 'Unable to send the blog broadcast right now. Please try again later.',
+    };
+  }
 }
 
 export async function createStudentCategoryAction(formData: FormData) {
