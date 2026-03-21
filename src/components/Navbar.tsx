@@ -55,17 +55,17 @@ export default function Navbar() {
   }, [pathname]);
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-oxford-blue/10 bg-ivory/85 shadow-[0_12px_35px_rgba(10,21,38,0.05)] backdrop-blur-xl transition-colors duration-300">
+    <nav className="fixed inset-x-0 top-0 z-[100] border-b border-oxford-blue/10 bg-ivory/95 shadow-[0_12px_35px_rgba(10,21,38,0.08)] backdrop-blur-xl transition-colors duration-300">
       <div className="h-px w-full bg-gradient-to-r from-transparent via-deep-gold/70 to-transparent" />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex min-h-[5.5rem] items-center justify-between gap-4 py-3">
+        <div className="flex h-[4.6rem] items-center justify-between gap-4">
           <div className="min-w-0">
             <Link href="/" className="group inline-flex flex-col">
-              <span className="max-w-[12rem] text-xl font-bold tracking-tight text-oxford-blue transition-colors duration-300 group-hover:text-deep-gold sm:max-w-none sm:text-2xl lg:text-[1.95rem]">
+              <span className="max-w-[12rem] text-xl font-bold tracking-tight text-oxford-blue transition-colors duration-300 group-hover:text-deep-gold sm:max-w-none sm:text-[1.8rem] lg:text-[1.95rem]">
                 Dr. Atul M. Gavaskar
               </span>
-              <span className="mt-1 text-[0.62rem] font-bold uppercase tracking-[0.32em] text-deep-gold/85 sm:text-[0.65rem]">
-                PGTD of English, Gondwana University
+              <span className="mt-0.5 text-[0.58rem] font-bold uppercase tracking-[0.28em] text-deep-gold/85 sm:text-[0.62rem]">
+                Assitant Professor, PGTD of English
               </span>
             </Link>
           </div>

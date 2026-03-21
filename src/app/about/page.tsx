@@ -2,13 +2,22 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Container from "@/components/Container";
 import { prisma } from "@/lib/prisma";
+import { withDatabaseFallback } from "@/lib/public-data";
 import type { Education, Experience } from "@prisma/client";
 
 export const revalidate = 300;
 
 export default async function About() {
-  const education = await prisma.education.findMany({ orderBy: { order: 'asc' } });
-  const experience = await prisma.experience.findMany({ orderBy: { order: 'asc' } });
+  const education = await withDatabaseFallback(
+    "about education",
+    () => prisma.education.findMany({ orderBy: { order: 'asc' } }),
+    [] as Education[]
+  );
+  const experience = await withDatabaseFallback(
+    "about experience",
+    () => prisma.experience.findMany({ orderBy: { order: 'asc' } }),
+    [] as Experience[]
+  );
 
   return (
     <>

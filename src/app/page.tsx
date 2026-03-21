@@ -5,16 +5,22 @@ import Button from "@/components/Button";
 import Image from "next/image";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { withDatabaseFallback } from "@/lib/public-data";
 import type { Publication } from "@prisma/client";
 
 export const revalidate = 300;
 
 export default async function Home() {
   // Fetch the 2 most recently added publications
-  const latestPublications = await prisma.publication.findMany({
-    orderBy: { createdAt: 'desc' },
-    take: 2,
-  });
+  const latestPublications = await withDatabaseFallback(
+    "home publications",
+    () =>
+      prisma.publication.findMany({
+        orderBy: { createdAt: 'desc' },
+        take: 2,
+      }),
+    [] as Publication[]
+  );
 
   return (
     <>

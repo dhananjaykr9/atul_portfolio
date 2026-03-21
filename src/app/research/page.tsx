@@ -2,22 +2,38 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Container from "@/components/Container";
 import { prisma } from "@/lib/prisma";
+import { withDatabaseFallback } from "@/lib/public-data";
 import type { Publication, Scholar, Conference } from "@prisma/client";
 
 export const revalidate = 300;
 
 export default async function Research() {
-  const publications = await prisma.publication.findMany({
-    orderBy: { year: 'desc' }
-  });
+  const publications = await withDatabaseFallback(
+    "research publications",
+    () =>
+      prisma.publication.findMany({
+        orderBy: { year: 'desc' }
+      }),
+    [] as Publication[]
+  );
 
-  const scholars = await prisma.scholar.findMany({
-    orderBy: { year: 'desc' }
-  });
+  const scholars = await withDatabaseFallback(
+    "research scholars",
+    () =>
+      prisma.scholar.findMany({
+        orderBy: { year: 'desc' }
+      }),
+    [] as Scholar[]
+  );
 
-  const conferences = await prisma.conference.findMany({
-    orderBy: { year: 'desc' }
-  });
+  const conferences = await withDatabaseFallback(
+    "research conferences",
+    () =>
+      prisma.conference.findMany({
+        orderBy: { year: 'desc' }
+      }),
+    [] as Conference[]
+  );
 
   return (
     <>

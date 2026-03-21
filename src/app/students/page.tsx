@@ -4,23 +4,36 @@ import Container from "@/components/Container";
 import Button from "@/components/Button";
 import StudentResourcesClient from "./StudentResourcesClient";
 import { prisma } from "@/lib/prisma";
+import { withDatabaseFallback } from "@/lib/public-data";
 import type { StudentCategory, StudentResource, ExtensionActivity } from "@prisma/client";
 
 export const revalidate = 300;
 
-export default async function Students() {
-  const categories = await prisma.studentCategory.findMany({
-    include: {
-      resources: {
-        orderBy: { title: 'asc' }
-      }
-    },
-    orderBy: { order: 'asc' }
-  });
+type CategoryWithResources = StudentCategory & { resources: StudentResource[] };
 
-  const extensionActivities = await prisma.extensionActivity.findMany({
-    orderBy: { createdAt: 'desc' }
-  });
+export default async function Students() {
+  const categories = await withDatabaseFallback(
+    "student categories",
+    () =>
+      prisma.studentCategory.findMany({
+        include: {
+          resources: {
+            orderBy: { title: 'asc' }
+          }
+        },
+        orderBy: { order: 'asc' }
+      }),
+    [] as CategoryWithResources[]
+  );
+
+  const extensionActivities = await withDatabaseFallback(
+    "extension activities",
+    () =>
+      prisma.extensionActivity.findMany({
+        orderBy: { createdAt: 'desc' }
+      }),
+    [] as ExtensionActivity[]
+  );
 
   return (
     <>

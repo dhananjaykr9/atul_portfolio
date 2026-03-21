@@ -2,15 +2,21 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Container from "@/components/Container";
 import { prisma } from "@/lib/prisma";
+import { withDatabaseFallback } from "@/lib/public-data";
 import type { BlogPost } from "@prisma/client";
 
 export const revalidate = 300;
 
 export default async function Blog() {
-  const posts = await prisma.blogPost.findMany({ 
-    where: { published: true },
-    orderBy: { date: 'desc' }
-  });
+  const posts = await withDatabaseFallback(
+    "blog posts",
+    () =>
+      prisma.blogPost.findMany({ 
+        where: { published: true },
+        orderBy: { date: 'desc' }
+      }),
+    [] as BlogPost[]
+  );
 
   return (
     <>
