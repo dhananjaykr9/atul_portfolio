@@ -35,6 +35,8 @@ export default async function Research() {
     [] as Conference[]
   );
 
+  const awardedScholars = scholars.filter((scholar) => scholar.status === "Awarded").length;
+
   return (
     <>
       <Navbar />
@@ -50,6 +52,32 @@ export default async function Research() {
               <p className="text-ivory/80 text-lg md:text-xl font-sans max-w-2xl mx-auto leading-relaxed italic">
                  "Literature is the safe and traditional vehicle through which we learn about the world."
               </p>
+              <div className="grid grid-cols-2 gap-4 pt-4 sm:grid-cols-4">
+                <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4 backdrop-blur-md">
+                  <div className="text-2xl font-bold text-ivory">{publications.length}</div>
+                  <div className="mt-1 text-[10px] font-bold uppercase tracking-[0.24em] text-deep-gold/90">
+                    Publications
+                  </div>
+                </div>
+                <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4 backdrop-blur-md">
+                  <div className="text-2xl font-bold text-ivory">{scholars.length}</div>
+                  <div className="mt-1 text-[10px] font-bold uppercase tracking-[0.24em] text-deep-gold/90">
+                    Scholars
+                  </div>
+                </div>
+                <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4 backdrop-blur-md">
+                  <div className="text-2xl font-bold text-ivory">{awardedScholars}</div>
+                  <div className="mt-1 text-[10px] font-bold uppercase tracking-[0.24em] text-deep-gold/90">
+                    Awarded
+                  </div>
+                </div>
+                <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4 backdrop-blur-md">
+                  <div className="text-2xl font-bold text-ivory">{conferences.length}</div>
+                  <div className="mt-1 text-[10px] font-bold uppercase tracking-[0.24em] text-deep-gold/90">
+                    Conferences
+                  </div>
+                </div>
+              </div>
             </div>
           </Container>
           {/* Decorative Orbs */}
@@ -59,31 +87,70 @@ export default async function Research() {
 
         <Container className="py-24">
           <div className="max-w-5xl mx-auto space-y-32">
+            <section className="rounded-[36px] border border-oxford-blue/8 bg-white/70 p-8 shadow-xl shadow-oxford-blue/5 backdrop-blur-md sm:p-10">
+              <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+                <div className="space-y-4">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-deep-gold">
+                    Research Overview
+                  </p>
+                  <h2 className="text-4xl font-serif font-bold text-oxford-blue">
+                    Academic Record & Supervision
+                  </h2>
+                  <div className="h-1 w-16 rounded-full bg-deep-gold"></div>
+                  <p className="max-w-2xl text-base leading-relaxed text-oxford-blue/65">
+                    Explore peer-reviewed publications, supervised doctoral work, and conference participation
+                    through a structured archive designed for quick scholarly reference.
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-3">
+                  <a
+                    href="#publications"
+                    className="rounded-full border border-deep-gold/20 bg-deep-gold/10 px-5 py-3 text-[11px] font-bold uppercase tracking-[0.22em] text-oxford-blue transition-colors hover:bg-deep-gold hover:text-oxford-blue"
+                  >
+                    View Publications
+                  </a>
+                  <a
+                    href="#supervision"
+                    className="rounded-full border border-oxford-blue/10 bg-ivory px-5 py-3 text-[11px] font-bold uppercase tracking-[0.22em] text-oxford-blue transition-colors hover:border-deep-gold/40 hover:text-deep-gold"
+                  >
+                    PhD Supervision
+                  </a>
+                  <a
+                    href="#conferences"
+                    className="rounded-full border border-oxford-blue/10 bg-ivory px-5 py-3 text-[11px] font-bold uppercase tracking-[0.22em] text-oxford-blue transition-colors hover:border-deep-gold/40 hover:text-deep-gold"
+                  >
+                    Conferences
+                  </a>
+                </div>
+              </div>
+            </section>
             
             {/* Peer-Reviewed Publications */}
             <section id="publications" className="scroll-mt-24">
-              <div className="flex items-center space-x-6 mb-16">
-                <h2 className="text-4xl font-serif font-bold text-oxford-blue shrink-0">Publications</h2>
-                <div className="h-px bg-oxford-blue/10 flex-grow"></div>
+              <div className="mb-16 flex items-center space-x-6">
+                <h2 className="shrink-0 text-4xl font-serif font-bold text-oxford-blue">Publications</h2>
+                <div className="h-px flex-grow bg-oxford-blue/10"></div>
               </div>
               <div className="grid gap-12">
                 {publications.map((pub: Publication) => (
-                  <div key={pub.id} className="group relative bg-white/60 backdrop-blur-sm p-8 md:p-12 rounded-[40px] border border-oxford-blue/5 shadow-xl hover:shadow-[0_20px_60px_-15px_rgba(15,31,56,0.1)] hover:-translate-y-2 transition-all duration-700 overflow-hidden">
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-deep-gold/5 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                    <div className="absolute bottom-0 left-0 w-full h-1.5 bg-gradient-to-r from-transparent via-deep-gold/40 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left"></div>
+                  <div key={pub.id} className="group relative overflow-hidden rounded-[40px] border border-oxford-blue/5 bg-white/70 p-8 shadow-xl transition-all duration-700 hover:-translate-y-2 hover:shadow-[0_20px_60px_-15px_rgba(15,31,56,0.1)] md:p-12 backdrop-blur-sm">
+                    <div className="absolute right-0 top-0 h-64 w-64 rounded-bl-full bg-gradient-to-bl from-deep-gold/5 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100"></div>
+                    <div className="absolute bottom-0 left-0 h-1.5 w-full scale-x-0 bg-gradient-to-r from-transparent via-deep-gold/40 to-transparent transition-transform duration-700 origin-left group-hover:scale-x-100"></div>
                     
-                    <div className="flex flex-col lg:flex-row gap-10 items-start relative z-10">
-                      <div className="w-full lg:w-1/3 aspect-[3/4] relative rounded-3xl overflow-hidden shadow-lg border border-oxford-blue/10 shrink-0 bg-zinc-200">
-                         <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-gradient-to-br from-oxford-blue/5 to-ivory">
-                           <svg className="w-12 h-12 text-oxford-blue/20 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div className="relative z-10 flex flex-col items-start gap-10 lg:flex-row">
+                      <div className="relative aspect-[3/4] w-full shrink-0 overflow-hidden rounded-3xl border border-oxford-blue/10 bg-zinc-200 shadow-lg lg:w-1/3">
+                         <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-oxford-blue/5 to-ivory p-6 text-center">
+                           <svg className="mb-4 h-12 w-12 text-oxford-blue/20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                            </svg>
-                           <span className="text-[10px] uppercase tracking-widest font-bold text-oxford-blue/40 px-4">Scholarly Journal Publication</span>
+                           <span className="px-4 text-[10px] font-bold uppercase tracking-widest text-oxford-blue/40">
+                             Scholarly Journal Publication
+                           </span>
                          </div>
                       </div>
                       <div className="flex-grow space-y-6">
-                        <div className="flex flex-wrap items-center gap-4 text-[11px] font-bold font-sans uppercase tracking-[0.2em]">
-                          <span className="text-deep-gold bg-deep-gold/10 px-4 py-1.5 rounded-full border border-deep-gold/20 shadow-sm">{pub.year}</span>
+                        <div className="flex flex-wrap items-center gap-4 text-[11px] font-bold uppercase tracking-[0.2em] font-sans">
+                          <span className="rounded-full border border-deep-gold/20 bg-deep-gold/10 px-4 py-1.5 text-deep-gold shadow-sm">{pub.year}</span>
                           <span className="text-oxford-blue/60">{pub.journal}</span>
                           <span className="text-oxford-blue/30 lg:border-l lg:border-oxford-blue/20 lg:pl-4">{pub.type}</span>
                         </div>
@@ -91,7 +158,7 @@ export default async function Research() {
                           {pub.title}
                         </h3>
                         {pub.abstract && (
-                          <p className="text-oxford-blue/70 text-base md:text-lg leading-relaxed font-sans border-l-2 border-deep-gold/20 pl-6 italic">
+                          <p className="border-l-2 border-deep-gold/20 pl-6 text-base italic leading-relaxed text-oxford-blue/70 font-sans md:text-lg">
                             {pub.abstract}
                           </p>
                         )}
@@ -120,16 +187,16 @@ export default async function Research() {
             {/* Current Research / PhD Supervision */}
             {scholars.length > 0 && (
               <section id="supervision" className="scroll-mt-24">
-                <div className="flex items-center space-x-6 mb-16">
-                  <h2 className="text-4xl font-serif font-bold text-oxford-blue shrink-0">PhD Supervision</h2>
-                  <div className="h-px bg-oxford-blue/10 flex-grow"></div>
+                <div className="mb-16 flex items-center space-x-6">
+                  <h2 className="shrink-0 text-4xl font-serif font-bold text-oxford-blue">PhD Supervision</h2>
+                  <div className="h-px flex-grow bg-oxford-blue/10"></div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   {scholars.map((scholar: Scholar) => (
-                    <div key={scholar.id} className="bg-white p-10 rounded-[40px] border border-oxford-blue/5 shadow-lg hover:shadow-2xl hover:shadow-oxford-blue/10 transition-all duration-700 relative group overflow-hidden">
-                      <div className="absolute top-0 right-0 w-24 h-24 bg-deep-gold/5 rounded-bl-[60px] group-hover:scale-150 transition-transform duration-700 origin-top-right"></div>
-                      <div className="absolute top-10 right-10 opacity-10 group-hover:opacity-30 transition-opacity duration-500">
-                        <svg className="w-12 h-12 text-oxford-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div key={scholar.id} className="group relative overflow-hidden rounded-[40px] border border-oxford-blue/5 bg-white p-10 shadow-lg transition-all duration-700 hover:shadow-2xl hover:shadow-oxford-blue/10">
+                      <div className="absolute right-0 top-0 h-24 w-24 origin-top-right rounded-bl-[60px] bg-deep-gold/5 transition-transform duration-700 group-hover:scale-150"></div>
+                      <div className="absolute right-10 top-10 opacity-10 transition-opacity duration-500 group-hover:opacity-30">
+                        <svg className="h-12 w-12 text-oxford-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path d="M12 14l9-5-9-5-9 5 9 5z" />
                           <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
                         </svg>
@@ -139,10 +206,10 @@ export default async function Research() {
                           {scholar.status}
                         </span>
                         <h3 className="text-2xl font-serif font-bold text-oxford-blue leading-tight group-hover:text-deep-gold transition-colors duration-500">{scholar.name}</h3>
-                        <p className="text-oxford-blue/70 text-base leading-relaxed font-sans group-hover:text-oxford-blue transition-colors duration-500 italic">
+                        <p className="text-base italic leading-relaxed text-oxford-blue/70 transition-colors duration-500 font-sans group-hover:text-oxford-blue">
                           "{scholar.topic}"
                         </p>
-                        <div className="pt-4 flex items-center text-[11px] font-bold text-oxford-blue/40 uppercase tracking-[0.2em] border-t border-oxford-blue/5">
+                        <div className="flex items-center border-t border-oxford-blue/5 pt-4 text-[11px] font-bold uppercase tracking-[0.2em] text-oxford-blue/40">
                           Reg / Award Year: {scholar.year}
                         </div>
                       </div>
@@ -155,14 +222,14 @@ export default async function Research() {
             {/* Conference Archive */}
             {conferences.length > 0 && (
               <section id="conferences" className="scroll-mt-24">
-                <div className="flex items-center space-x-6 mb-16">
-                  <h2 className="text-4xl font-serif font-bold text-oxford-blue shrink-0">Conference Archive</h2>
-                  <div className="h-px bg-oxford-blue/10 flex-grow"></div>
+                <div className="mb-16 flex items-center space-x-6">
+                  <h2 className="shrink-0 text-4xl font-serif font-bold text-oxford-blue">Conference Archive</h2>
+                  <div className="h-px flex-grow bg-oxford-blue/10"></div>
                 </div>
                 <div className="space-y-6">
                   {conferences.map((conf: Conference) => (
-                    <div key={conf.id} className="flex flex-col md:flex-row md:items-center bg-white/50 backdrop-blur-sm p-8 rounded-3xl border border-oxford-blue/5 hover:bg-white hover:shadow-xl transition-all duration-500 group">
-                      <div className="md:w-32 shrink-0 text-3xl font-serif font-bold text-deep-gold/40 mb-4 md:mb-0 group-hover:text-deep-gold transition-colors duration-500">
+                    <div key={conf.id} className="group flex flex-col rounded-3xl border border-oxford-blue/5 bg-white/50 p-8 transition-all duration-500 hover:bg-white hover:shadow-xl md:flex-row md:items-center backdrop-blur-sm">
+                      <div className="mb-4 shrink-0 text-3xl font-serif font-bold text-deep-gold/40 transition-colors duration-500 group-hover:text-deep-gold md:mb-0 md:w-32">
                         {conf.year}
                       </div>
                       <div className="flex-grow space-y-2">

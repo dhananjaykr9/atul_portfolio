@@ -118,12 +118,25 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-3 border-t border-ivory/10 pt-6 text-center text-[10px] font-bold uppercase tracking-widest text-ivory/40 sm:mt-16 sm:pt-8 md:flex-row md:items-center md:justify-between md:text-left lg:mt-20">
-          <p>&copy; {currentYear} Dr. Atul M. Gavaskar. All rights reserved.</p>
-          <div className="flex items-center justify-center space-x-2 md:justify-end">
-            <div className="h-1.5 w-1.5 rounded-full bg-deep-gold"></div>
-            <p>Academic Digital Identity | Gondwana University</p>
+        <div className="mt-12 flex flex-col gap-4 border-t border-ivory/10 pt-6 text-center text-[10px] font-bold uppercase tracking-widest text-ivory/40 sm:mt-16 sm:pt-8 lg:mt-20">
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between md:text-left">
+            <p>&copy; {currentYear} Dr. Atul M. Gavaskar. All rights reserved.</p>
+            <div className="flex items-center justify-center space-x-2 md:justify-end">
+              <div className="h-1.5 w-1.5 rounded-full bg-deep-gold"></div>
+              <p>Academic Digital Identity | Gondwana University</p>
+            </div>
           </div>
+          <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-ivory/45 md:text-left">
+            managed by 
+            <a
+              href="https://kshanikadigital.app"
+              target="_blank"
+              rel="noreferrer"
+              className="ml-1 text-deep-gold transition-colors duration-300 hover:text-ivory"
+            >
+              kshanikadigital.app
+            </a>
+          </p>
         </div>
       </div>
     </footer>

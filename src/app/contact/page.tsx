@@ -35,16 +35,6 @@ const professionalChannels = [
     ),
   },
   {
-    label: "LinkedIn",
-    value: "View LinkedIn Profile",
-    href: "https://in.linkedin.com/in/atul-gavaskar-89b10734a?trk=org-employees",
-    icon: (
-      <svg className="h-6 w-6 sm:h-7 sm:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M7 8h.01M7 12v5m5-5v5m0-5a3 3 0 013 3v2m-3-5a3 3 0 00-3 3v2m3-5V8m5 9h1a1 1 0 001-1V7a1 1 0 00-1-1H6a1 1 0 00-1 1v9a1 1 0 001 1h1" />
-      </svg>
-    ),
-  },
-  {
     label: "Office Hours",
     value: "Mon - Fri | 11:00 AM - 04:00 PM",
     icon: (

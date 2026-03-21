@@ -159,6 +159,27 @@ export async function deletePublicationAction(formData: FormData) {
   revalidatePath('/admin/research');
 }
 
+export async function updatePublicationAction(formData: FormData) {
+  await requireAdmin();
+
+  await prisma.publication.update({
+    where: {
+      id: getString(formData, 'id'),
+    },
+    data: {
+      title: getString(formData, 'title'),
+      journal: getString(formData, 'journal'),
+      year: getString(formData, 'year'),
+      type: getString(formData, 'type') || 'Journal Article',
+      link: getOptionalString(formData, 'link'),
+      abstract: getOptionalString(formData, 'abstract'),
+    },
+  });
+
+  revalidatePublicSite();
+  revalidatePath('/admin/research');
+}
+
 export async function createScholarAction(formData: FormData) {
   await requireAdmin();
 
@@ -188,6 +209,25 @@ export async function deleteScholarAction(formData: FormData) {
   revalidatePath('/admin/research');
 }
 
+export async function updateScholarAction(formData: FormData) {
+  await requireAdmin();
+
+  await prisma.scholar.update({
+    where: {
+      id: getString(formData, 'id'),
+    },
+    data: {
+      name: getString(formData, 'name'),
+      topic: getString(formData, 'topic'),
+      status: getString(formData, 'status') || 'Ongoing',
+      year: getString(formData, 'year'),
+    },
+  });
+
+  revalidatePath('/research');
+  revalidatePath('/admin/research');
+}
+
 export async function createConferenceAction(formData: FormData) {
   await requireAdmin();
 
@@ -210,6 +250,25 @@ export async function deleteConferenceAction(formData: FormData) {
   await prisma.conference.delete({
     where: {
       id: getString(formData, 'id'),
+    },
+  });
+
+  revalidatePath('/research');
+  revalidatePath('/admin/research');
+}
+
+export async function updateConferenceAction(formData: FormData) {
+  await requireAdmin();
+
+  await prisma.conference.update({
+    where: {
+      id: getString(formData, 'id'),
+    },
+    data: {
+      title: getString(formData, 'title'),
+      event: getString(formData, 'event'),
+      location: getString(formData, 'location'),
+      year: getString(formData, 'year'),
     },
   });
 

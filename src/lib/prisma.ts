@@ -8,17 +8,27 @@ if (!databaseUrl) {
 }
 
 function normalizeDatabaseUrl(url: string) {
+  const cleanedUrl = url.trim().replace(/^['"]|['"]$/g, '')
+
   if (
-    url.includes('<project-ref>') ||
-    url.includes('<region>') ||
-    url.includes('YOUR_PASSWORD')
+    cleanedUrl.includes('<project-ref>') ||
+    cleanedUrl.includes('<region>') ||
+    cleanedUrl.includes('YOUR_PASSWORD')
   ) {
     throw new Error(
       'DATABASE_URL still contains placeholder values. Replace <project-ref>, <region>, and YOUR_PASSWORD with your real Supabase connection details.'
     )
   }
 
-  const parsedUrl = new URL(url)
+  let parsedUrl: URL
+
+  try {
+    parsedUrl = new URL(cleanedUrl)
+  } catch {
+    throw new Error(
+      'DATABASE_URL is not a valid URL. If your database password contains special characters like @, :, /, ?, or #, URL-encode the password before saving it in .env.'
+    )
+  }
 
   if (parsedUrl.searchParams.get('sslmode') === 'require') {
     // Preserve the current secure behavior expected by pg while silencing the deprecation warning.

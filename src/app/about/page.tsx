@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Container from "@/components/Container";
@@ -7,96 +8,166 @@ import type { Education, Experience } from "@prisma/client";
 
 export const revalidate = 300;
 
+const fallbackEducationEntries = [
+  {
+    id: "fallback-phd",
+    degree: "PhD in English",
+    institution: "RTMNU, Nagpur",
+    year: "2025",
+    details: "Doctoral qualification awarded from RTM Nagpur University.",
+  },
+  {
+    id: "fallback-ma",
+    degree: "MA in English",
+    institution: "RTMNU, Nagpur",
+    year: "--",
+    details: "Postgraduate study in English language and literature.",
+  },
+  {
+    id: "fallback-ba",
+    degree: "BA in English",
+    institution: "RTMNU, Nagpur",
+    year: "--",
+    details: "Undergraduate foundation in English studies.",
+  },
+  {
+    id: "fallback-set",
+    degree: "SET Qualified",
+    institution: "State Eligibility Test",
+    year: "--",
+    details: "Qualified through the State Eligibility Test for academic teaching standards.",
+  },
+] as const;
+
 export default async function About() {
   const education = await withDatabaseFallback(
     "about education",
-    () => prisma.education.findMany({ orderBy: { order: 'asc' } }),
+    () => prisma.education.findMany({ orderBy: { order: "asc" } }),
     [] as Education[]
   );
   const experience = await withDatabaseFallback(
     "about experience",
-    () => prisma.experience.findMany({ orderBy: { order: 'asc' } }),
+    () => prisma.experience.findMany({ orderBy: { order: "asc" } }),
     [] as Experience[]
   );
+
+  const yearsOfService = "15+";
+  const educationEntries = education.length > 0 ? education : fallbackEducationEntries;
+  const profileHighlights = [
+    "English Literature and literary criticism",
+    "American Literature, Indian Diaspora, and Linguistics",
+    "Mentorship of MA students and active PhD supervision",
+  ];
 
   return (
     <>
       <Navbar />
-      <main className="flex-grow bg-ivory  py-16 lg:py-24 transition-colors">
+      <main className="flex-grow overflow-hidden bg-[radial-gradient(circle_at_top,_rgba(197,160,89,0.14),transparent_26%),linear-gradient(180deg,#f9f7f2_0%,#f7f3eb_45%,#f9f7f2_100%)] pb-12 pt-[5rem] sm:pb-16 sm:pt-[5.5rem] lg:pb-20 lg:pt-[6rem] transition-colors">
         <Container>
-          <div className="max-w-4xl mx-auto">
-            {/* Biography Section */}
-              <div className="relative">
-                {/* Decorative glowing graphic behind the biography block */}
-                <div className="absolute -top-10 -left-10 w-48 h-48 bg-deep-gold/10 rounded-full blur-3xl -z-10 animate-pulse"></div>
-                <div className="prose prose-lg text-oxford-blue/80 font-sans leading-relaxed relative z-10 bg-white/40 backdrop-blur-md p-8 md:p-12 rounded-3xl border border-oxford-blue/5 shadow-xl">
-                  <p className="mb-6">
-                    <span className="float-left text-6xl md:text-7xl font-serif font-bold text-deep-gold leading-none pr-3 pb-1 tracking-tighter mix-blend-multiply">D</span>
-                    r. Atul M. Gavaskar is a dedicated academician and researcher with over 15 years of experience 
-                    in the field of English Literature. Currently serving as an Assistant Professor at the 
-                    <span className="font-bold text-oxford-blue"> Post Graduate Teaching Department (PGTD) of English</span>, Gondwana University, Gadchiroli, 
-                    he has been instrumental in shaping the academic landscape of the region.
+          <div className="mx-auto max-w-6xl space-y-8 sm:space-y-10 lg:space-y-12">
+            <section className="mt-4 grid gap-6 lg:mt-6 lg:grid-cols-[1.2fr_0.8fr] lg:gap-8">
+              <article className="relative overflow-hidden rounded-[34px] border border-oxford-blue/8 bg-white/82 p-7 shadow-[0_22px_70px_rgba(21,34,54,0.07)] backdrop-blur-sm sm:p-8 lg:p-9">
+                <div className="absolute right-0 top-0 h-32 w-32 rounded-full bg-deep-gold/10 blur-3xl" />
+                <p className="text-xs font-bold uppercase tracking-[0.24em] text-deep-gold">Biography</p>
+                <div className="relative mt-4 space-y-4 text-base leading-8 text-oxford-blue/76 sm:mt-5 sm:space-y-5 sm:text-lg">
+                  <p>
+                    <span className="float-left pr-3 font-serif text-6xl font-bold leading-none text-deep-gold sm:text-7xl">D</span>
+                    r. Atul M. Gavaskar is a dedicated academician and researcher whose work reflects a deep commitment to English Studies, classroom excellence, and the scholarly development of students from diverse social and regional backgrounds.
                   </p>
-                  <p className="mb-6">
-                    His research interests span across <span className="italic">American Literature, Indian Diaspora, and Linguistics</span>. 
-                    He is passionate about bridging the gap between traditional literary theory and contemporary 
-                    societal contexts, especially within the tribal and rural backdrop of Gadchiroli.
+                  <p>
+                    His research interests engage with <span className="font-semibold text-oxford-blue">American Literature, Indian Diaspora, and Linguistics</span>, with a sustained concern for how literary thought intersects with contemporary realities, particularly within the tribal and rural contexts of Gadchiroli and surrounding regions.
                   </p>
-                  <p className="relative border-l-4 border-deep-gold pl-6 mt-8 py-2 bg-gradient-to-r from-deep-gold/5 to-transparent">
-                    As a mentor, he has guided numerous MA students and is currently supervising several 
-                    PhD scholars, fostering a culture of rigorous inquiry and scholarly excellence.
+                  <p className="rounded-[24px] border-l-4 border-deep-gold bg-gradient-to-r from-deep-gold/10 to-transparent px-5 py-4 text-oxford-blue/78">
+                    As a mentor, he has guided numerous postgraduate learners and continues to supervise research scholars with an emphasis on careful reading, disciplined inquiry, and socially meaningful scholarship.
                   </p>
                 </div>
+              </article>
+
+              <aside className="rounded-[34px] border border-oxford-blue/8 bg-[linear-gradient(180deg,rgba(27,54,93,0.96),rgba(27,54,93,0.9))] p-7 text-ivory shadow-[0_22px_70px_rgba(21,34,54,0.16)] sm:p-8 lg:p-9">
+                <p className="text-xs font-bold uppercase tracking-[0.24em] text-deep-gold">Academic Focus</p>
+                <h2 className="mt-4 font-serif text-3xl font-bold text-white">Areas that define his academic profile</h2>
+                <div className="mt-6 space-y-3 sm:space-y-4">
+                  {profileHighlights.map((item) => (
+                    <div key={item} className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/6 px-4 py-4">
+                      <span className="mt-1 inline-block h-2.5 w-2.5 rounded-full bg-deep-gold" />
+                      <p className="text-sm leading-7 text-ivory/82">{item}</p>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-7 rounded-[26px] border border-deep-gold/25 bg-deep-gold/10 p-5 sm:mt-8">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-deep-gold">Current Role</p>
+                  <p className="mt-3 font-serif text-2xl font-bold text-white">Assistant Professor</p>
+                  <p className="mt-2 text-sm leading-7 text-ivory/75">Post Graduate Teaching Department of English, Gondwana University, Gadchiroli.</p>
+                </div>
+              </aside>
+            </section>
+
+            <section className="rounded-[36px] border border-oxford-blue/8 bg-white/75 px-6 py-8 shadow-[0_18px_60px_rgba(21,34,54,0.06)] backdrop-blur-sm sm:px-8 sm:py-10 lg:px-10 lg:py-11">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-[0.24em] text-deep-gold">Educational Qualifications</p>
+                  <h2 className="mt-2 font-serif text-3xl font-bold text-oxford-blue sm:text-4xl">Academic formation and intellectual grounding</h2>
+                </div>
+                <p className="max-w-xl text-sm leading-7 text-oxford-blue/65">
+                  A concise timeline of qualifications that shaped his grounding in literary studies and university teaching.
+                </p>
               </div>
 
-            {/* Education Timeline */}
-            <section className="mb-24">
-              <h2 className="text-deep-gold font-sans font-bold uppercase tracking-widest text-sm mb-12 text-center">Educational Qualifications</h2>
-              <div className="relative border-l border-oxford-blue/10  ml-4 md:ml-0 before:absolute before:inset-y-0 before:-left-px before:w-0.5 before:bg-gradient-to-b before:from-deep-gold/50 before:via-deep-gold/10 before:to-transparent">
-                {education.map((edu: Education, idx: number) => (
-                  <div key={idx} className="mb-12 ml-8 relative group">
-                    <div className="absolute -left-[41px] top-4 w-5 h-5 rounded-full bg-ivory border-4 border-deep-gold shadow-[0_0_15px_rgba(197,160,89,0.7)] group-hover:scale-150 group-hover:bg-deep-gold transition-all duration-500 z-10"></div>
-                    <div className="bg-white/80 p-8 rounded-2xl border border-oxford-blue/5 shadow-lg hover:shadow-2xl hover:shadow-deep-gold/10 hover:-translate-y-2 group-hover:border-deep-gold/20 transition-all duration-700 backdrop-blur-xl relative overflow-hidden">
-                      <div className="absolute top-0 right-0 w-32 h-32 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-deep-gold/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                      <div className="relative z-10">
-                        <span className="text-[10px] md:text-xs font-bold text-deep-gold bg-deep-gold/10 px-3 py-1 rounded-full uppercase tracking-widest mb-4 inline-block">{edu.year}</span>
-                        <h3 className="text-2xl font-serif font-bold text-oxford-blue mb-2 group-hover:text-deep-gold transition-colors duration-500">{edu.degree}</h3>
-                        <p className="text-[11px] md:text-sm font-bold text-oxford-blue/60 uppercase tracking-widest mb-4">{edu.institution}</p>
-                        <p className="text-oxford-blue/70 text-sm leading-relaxed border-l-2 border-oxford-blue/10 pl-4 group-hover:border-deep-gold/50 transition-colors duration-500">{edu.details}</p>
-                      </div>
+              <div className="relative mt-8 border-l border-oxford-blue/10 pl-6 before:absolute before:inset-y-0 before:left-0 before:w-px before:bg-gradient-to-b before:from-deep-gold/60 before:via-deep-gold/20 before:to-transparent sm:mt-10 sm:pl-10">
+                {educationEntries.length > 0 ? (
+                  educationEntries.map((edu) => (
+                    <div key={edu.id} className="group relative mb-6 last:mb-0 sm:mb-8">
+                      <span className="absolute -left-[33px] top-8 h-4 w-4 rounded-full border-4 border-deep-gold bg-ivory shadow-[0_0_16px_rgba(197,160,89,0.55)] transition duration-300 group-hover:scale-125 sm:-left-[41px]" />
+                      <article className="rounded-[28px] border border-oxford-blue/8 bg-ivory/90 p-5 shadow-[0_16px_40px_rgba(21,34,54,0.05)] transition duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_22px_55px_rgba(21,34,54,0.08)] sm:p-6 lg:p-7">
+                        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                          <div>
+                            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-deep-gold">{edu.year}</p>
+                            <h3 className="mt-3 font-serif text-2xl font-bold text-oxford-blue">{edu.degree}</h3>
+                            <p className="mt-2 text-xs font-bold uppercase tracking-[0.2em] text-oxford-blue/55">{edu.institution}</p>
+                          </div>
+                        </div>
+                        <p className="mt-4 border-l-2 border-oxford-blue/10 pl-4 text-sm leading-7 text-oxford-blue/72 sm:mt-5">{edu.details}</p>
+                      </article>
                     </div>
-                  </div>
-                ))}
+                  ))
+                ) : null}
               </div>
             </section>
 
-            {/* Professional Experience */}
-            <section>
-              <h2 className="text-deep-gold font-sans font-bold uppercase tracking-widest text-sm mb-12 text-center">Professional Experience</h2>
-              <div className="space-y-8">
-                {experience.map((exp: Experience, idx: number) => (
-                  <div key={idx} className="bg-white p-8 md:p-10 rounded-3xl shadow-xl hover:shadow-2xl hover:shadow-oxford-blue/20 hover:-translate-y-2 group-hover:border-deep-gold/30 transition-all duration-700 border border-oxford-blue/5 relative overflow-hidden group">
-                    <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-bl from-deep-gold/10 to-transparent rounded-bl-full -mr-12 -mt-12 transition-transform group-hover:scale-150 duration-700 ease-out"></div>
-                    <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-oxford-blue/30 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-700 transform origin-left"></div>
-                    
-                    <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-8 relative z-10">
-                      <div>
-                        <h3 className="text-3xl font-serif font-bold text-oxford-blue group-hover:text-deep-gold transition-colors duration-500 mb-3">{exp.role}</h3>
-                        <p className="text-xs md:text-sm font-bold text-oxford-blue/60 uppercase tracking-widest flex items-center">
-                          <span className="w-4 h-px bg-oxford-blue/30 mr-2"></span>
-                          {exp.institution}
-                        </p>
+            <section className="rounded-[36px] border border-oxford-blue/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(249,247,242,0.98))] px-6 py-8 shadow-[0_18px_60px_rgba(21,34,54,0.06)] sm:px-8 sm:py-10 lg:px-10 lg:py-11">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-[0.24em] text-deep-gold">Professional Experience</p>
+                  <h2 className="mt-2 font-serif text-3xl font-bold text-oxford-blue sm:text-4xl">Teaching, service, and institutional contribution</h2>
+                </div>
+                <p className="max-w-xl text-sm leading-7 text-oxford-blue/65">
+                  Roles and responsibilities that reflect his long-term engagement with literary education and academic administration.
+                </p>
+              </div>
+
+              <div className="mt-8 grid gap-5 sm:mt-10 sm:gap-6">
+                {experience.length > 0 ? (
+                  experience.map((exp) => (
+                    <article key={exp.id} className="group relative overflow-hidden rounded-[30px] border border-oxford-blue/8 bg-white/88 p-6 shadow-[0_16px_45px_rgba(21,34,54,0.06)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_70px_rgba(21,34,54,0.1)] sm:p-7 lg:p-8">
+                      <div className="absolute right-0 top-0 h-36 w-36 rounded-full bg-deep-gold/10 blur-3xl transition duration-500 group-hover:scale-125" />
+                      <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-deep-gold/55 to-transparent opacity-0 transition duration-500 group-hover:opacity-100" />
+                      <div className="relative flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between lg:gap-5">
+                        <div className="max-w-3xl">
+                          <h3 className="font-serif text-2xl font-bold text-oxford-blue sm:text-3xl">{exp.role}</h3>
+                          <p className="mt-3 text-xs font-bold uppercase tracking-[0.22em] text-oxford-blue/55">{exp.institution}</p>
+                        </div>
+                        <span className="inline-flex w-fit items-center rounded-full bg-oxford-blue px-4 py-2 text-[11px] font-bold uppercase tracking-[0.22em] text-ivory shadow-[0_10px_25px_rgba(27,54,93,0.2)]">
+                          {exp.period}
+                        </span>
                       </div>
-                      <span className="text-[10px] md:text-xs font-bold bg-oxford-blue text-ivory px-4 py-2 rounded-full mt-6 md:mt-0 inline-flex items-center shadow-lg group-hover:bg-deep-gold group-hover:text-oxford-blue transition-colors duration-500 tracking-widest uppercase">
-                        <svg className="w-3.5 h-3.5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        {exp.period}
-                      </span>
-                    </div>
-                    <p className="text-oxford-blue/70 text-base md:text-lg leading-relaxed relative z-10 font-sans">{exp.description}</p>
+                      <p className="relative mt-5 max-w-4xl text-sm leading-8 text-oxford-blue/74 sm:mt-6 sm:text-base">{exp.description}</p>
+                    </article>
+                  ))
+                ) : (
+                  <div className="rounded-[28px] border border-dashed border-oxford-blue/15 bg-white/70 p-6 text-sm leading-7 text-oxford-blue/60">
+                    Experience records will appear here once they are available from the database.
                   </div>
-                ))}
+                )}
               </div>
             </section>
           </div>

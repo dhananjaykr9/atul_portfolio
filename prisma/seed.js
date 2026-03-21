@@ -57,8 +57,10 @@ async function main() {
   // Education
   await prisma.education.createMany({
     data: [
-      { degree: "Doctor of Philosophy (PhD) in English", institution: "University", year: "2020", details: "Thesis on Dalit Literature", order: 1 },
-      { degree: "MA in English", institution: "University", year: "2015", details: "Specialized in Literature", order: 2 }
+      { degree: "PhD in English", institution: "RTMNU, Nagpur", year: "2025", details: "Doctoral qualification awarded from RTM Nagpur University.", order: 1 },
+      { degree: "MA in English", institution: "RTMNU, Nagpur", year: "--", details: "Postgraduate study in English language and literature.", order: 2 },
+      { degree: "BA in English", institution: "RTMNU, Nagpur", year: "--", details: "Undergraduate foundation in English studies.", order: 3 },
+      { degree: "SET Qualified", institution: "State Eligibility Test", year: "--", details: "Qualified through the State Eligibility Test for academic teaching standards.", order: 4 }
     ]
   });
 
