@@ -17,6 +17,9 @@ const globalForPrisma = globalThis as unknown as {
 export const prisma = new Proxy({} as PrismaClient, {
   get: (target, prop) => {
     if (!globalForPrisma.prisma) {
+      if (process.env.NEXT_PHASE === 'phase-production-build') {
+        return ({} as any)[prop]
+      }
       globalForPrisma.prisma = prismaClientSingleton()
     }
     return (globalForPrisma.prisma as any)[prop]
