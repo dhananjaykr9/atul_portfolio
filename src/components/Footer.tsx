@@ -98,7 +98,7 @@ export default function Footer() {
           <p>&copy; {currentYear} Dr. Atul M. Gavaskar. All rights reserved.</p>
           <div className="flex items-center justify-center space-x-2 md:justify-end">
             <div className="h-1.5 w-1.5 rounded-full bg-deep-gold"></div>
-            <p>Academic Digital Identity | Built for Gondwana University</p>
+            <p>Academic Digital Identity | Gondwana University</p>
           </div>
         </div>
       </div>
