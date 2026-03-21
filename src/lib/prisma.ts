@@ -1,13 +1,29 @@
 import { PrismaClient } from '@prisma/client'
 
+// Robust singleton for PrismaClient to handle Vercel's build/runtime lifecycle
 const prismaClientSingleton = () => {
   return new PrismaClient()
 }
 
-declare global {
-  var prisma: undefined | ReturnType<typeof prismaClientSingleton>
+type PrismaClientSingleton = ReturnType<typeof prismaClientSingleton>
+
+const globalForPrisma = globalThis as unknown as {
+  prisma: PrismaClientSingleton | undefined
 }
 
-export const prisma = globalThis.prisma ?? prismaClientSingleton()
+// We use a Proxy to lazy-load the Prisma client only when a query is actually called.
+// This prevents Prisma from trying to connect during the Vercel build phase.
+export const prisma = new Proxy({} as PrismaClient, {
+  get: (target, prop) => {
+    if (!globalForPrisma.prisma) {
+      // Return empty object/function if we're in the build phase to avoid instantiation
+      if (process.env.NEXT_PHASE === 'phase-production-build') {
+        return ({} as any)[prop]
+      }
+      globalForPrisma.prisma = prismaClientSingleton()
+    }
+    return (globalForPrisma.prisma as any)[prop]
+  }
+})
 
-if (process.env.NODE_ENV !== 'production') globalThis.prisma = prisma
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
