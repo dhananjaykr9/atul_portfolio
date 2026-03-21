@@ -5,6 +5,8 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import type { BlogPost } from "@prisma/client";
 
+export const dynamic = 'force-dynamic';
+
 export default async function Blog() {
   const posts = await prisma.blogPost.findMany({ 
     where: { published: true },

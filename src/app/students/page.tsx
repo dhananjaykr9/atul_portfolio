@@ -6,6 +6,8 @@ import StudentResourcesClient from "./StudentResourcesClient";
 import { prisma } from "@/lib/prisma";
 import type { ExtensionActivity } from "@prisma/client";
 
+export const dynamic = 'force-dynamic';
+
 export default async function Students() {
   const categories = await prisma.studentCategory.findMany({
     include: {
