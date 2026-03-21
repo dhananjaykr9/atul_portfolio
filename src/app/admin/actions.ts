@@ -54,6 +54,37 @@ function revalidatePublicSite() {
   revalidatePath('/students');
 }
 
+const featuredResearchPublications = [
+  {
+    title: "The Role of Autobiography in Dalit Literature: A Study of Bama's Karukku and Meena Kandasamy's When I Hit You",
+    journal: 'Research Directions International Peer Reviewed Journal',
+    year: '2024',
+    type: 'Journal Article',
+    link: 'https://www.researchdirections.org/Management/pdfreadpage.php?filename=article1350.pdf',
+    abstract:
+      "A comparative study of Bama's Karukku and Meena Kandasamy's When I Hit You, examining how Dalit women's autobiographical narratives critique caste and gender oppression in contemporary India.",
+  },
+  {
+    title: 'Artificial Intelligence and Communication: Bridging the Gap Between Human and Machine Dialogue',
+    journal: 'Nanotechnology Perceptions',
+    year: '2024',
+    type: 'Journal Article',
+    link: 'https://www.researchgate.net/publication/386496606_Artificial_Intelligence_and_Communication_Bridging_the_Gap_Between_Human_and_Machine_Dialogue',
+    abstract:
+      'An exploration of AI-driven communication systems, focusing on natural language processing, machine learning, and conversational agents to evaluate how they improve human-machine dialogue.',
+  },
+  {
+    title:
+      "Feministic Rebellious Streaks in Meena Kandasamy's Novels When I Hit You: Or, A Portrait of the Writer as a Young Wife and The Gypsy Goddess",
+    journal: 'Research Paper',
+    year: '2022',
+    type: 'Journal Article',
+    link: null,
+    abstract:
+      "A critical study of feminist themes in Meena Kandasamy's novels, with emphasis on patriarchy, technology-fuelled injustice, and the evolving constraints placed on women's autonomy.",
+  },
+] as const;
+
 export async function loginAction(formData: FormData) {
   const email = getString(formData, 'email');
   const password = getString(formData, 'password');
@@ -89,6 +120,27 @@ export async function createPublicationAction(formData: FormData) {
       abstract: getOptionalString(formData, 'abstract'),
     },
   });
+
+  revalidatePublicSite();
+  revalidatePath('/admin/research');
+}
+
+export async function importFeaturedResearchAction() {
+  await requireAdmin();
+
+  for (const publication of featuredResearchPublications) {
+    const existing = await prisma.publication.findFirst({
+      where: {
+        title: publication.title,
+      },
+    });
+
+    if (!existing) {
+      await prisma.publication.create({
+        data: publication,
+      });
+    }
+  }
 
   revalidatePublicSite();
   revalidatePath('/admin/research');

@@ -5,6 +5,7 @@
   deleteConferenceAction,
   deletePublicationAction,
   deleteScholarAction,
+  importFeaturedResearchAction,
 } from '@/app/admin/actions';
 import { AdminShell } from '@/components/admin/AdminShell';
 import { requireAdmin } from '@/lib/admin-auth';
@@ -27,6 +28,23 @@ export default async function AdminResearchPage() {
       description="Add new publications, PhD supervision entries, and conference records for the public research section."
     >
       <div className="space-y-8">
+        <section className="rounded-[32px] border border-oxford-blue/8 bg-white p-6 shadow-[0_15px_60px_rgba(21,34,54,0.07)]">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.24em] text-deep-gold">Quick Import</p>
+              <h2 className="mt-2 text-2xl font-serif font-bold text-oxford-blue">Add the three missing research publications</h2>
+              <p className="mt-2 text-sm text-oxford-blue/65">
+                This adds the requested three publications if they are not already present in the database.
+              </p>
+            </div>
+            <form action={importFeaturedResearchAction}>
+              <button type="submit" className="rounded-2xl bg-oxford-blue px-5 py-3 text-xs font-bold uppercase tracking-[0.24em] text-ivory hover:bg-deep-gold hover:text-oxford-blue">
+                Import 3 Publications
+              </button>
+            </form>
+          </div>
+        </section>
+
         <section className="grid gap-8 xl:grid-cols-3">
           <form action={createPublicationAction} className="rounded-[32px] border border-oxford-blue/8 bg-white p-6 shadow-[0_15px_60px_rgba(21,34,54,0.07)]">
             <p className="text-xs font-bold uppercase tracking-[0.24em] text-deep-gold">Add Publication</p>
@@ -124,4 +142,3 @@ export default async function AdminResearchPage() {
     </AdminShell>
   );
 }
-

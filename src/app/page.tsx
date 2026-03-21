@@ -66,7 +66,7 @@ export default async function Home() {
 
                 <div className="flex flex-wrap items-center gap-4 sm:gap-6 pt-4">
                   <div className="flex flex-col">
-                    <span className="text-2xl md:text-3xl font-serif font-bold text-oxford-blue">15+</span>
+                    <span className="text-2xl md:text-3xl font-serif font-bold text-oxford-blue">10+</span>
                     <span className="text-[10px] sm:text-xs uppercase tracking-tighter text-oxford-blue/60 font-bold">Years Experience</span>
                   </div>
                   <div className="h-8 md:h-10 w-px bg-oxford-blue/10"></div>
@@ -76,8 +76,8 @@ export default async function Home() {
                   </div>
                   <div className="h-8 md:h-10 w-px bg-oxford-blue/10"></div>
                   <div className="flex flex-col">
-                    <span className="text-2xl md:text-3xl font-serif font-bold text-oxford-blue">10+</span>
-                    <span className="text-[10px] sm:text-xs uppercase tracking-tighter text-oxford-blue/60 font-bold">PhD Scholars</span>
+                    <span className="text-2xl md:text-3xl font-serif font-bold text-oxford-blue">200+</span>
+                    <span className="text-[10px] sm:text-xs uppercase tracking-tighter text-oxford-blue/60 font-bold">Students Mentored</span>
                   </div>
                 </div>
               </div>

@@ -5,10 +5,10 @@ import Link from "next/link";
 
 const navLinks = [
   { name: "Home", href: "/" },
-  { name: "About", href: "/about" },
   { name: "Research", href: "/research" },
   { name: "Students' Corner", href: "/students" },
   { name: "Insights", href: "/blog" },
+   { name: "About", href: "/about" },
   { name: "Contact", href: "/contact" },
 ];
 
