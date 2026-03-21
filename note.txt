@@ -1,0 +1,138 @@
+# Product Requirements Document (PRD)
+**Project:** Professional Academic Portfolio – Dr. Atul M. Gavaskar
+**Role:** Assistant Professor, PGTD of English, Gondwana University, Gadchiroli.
+
+## 1. Product Vision
+To create a "Digital Academic Identity" that serves as a formal record of teaching, research guidance, and scholarly contributions. The site will act as a bridge between the professor, his MA/PhD students, and the university administration for NAAC/IQAC documentation.
+
+## 2. Target Audience
+* **PG Students (MA English):** Accessing syllabus, notes, and SET/NET guidance.
+* **PhD Scholars:** Reviewing research areas and supervision availability.
+* **Academic Bodies:** University committees and recruiters looking for a verified CV.
+* **Literary Community:** Readers of his academic critiques and articles.
+
+## 3. Core Functional Requirements
+
+### A. Professional Identity & Credentials
+* **The Academic Banner:** High-visibility display of name and designation: *Assistant Professor, PGTD of English, Gondwana University*.
+* **Qualifications Registry:** Dedicated section for **BA, MA (English), SET, PhD**.
+* **Digital CV:** A downloadable, print-friendly PDF version of his full academic resume.
+
+### B. Research & Supervision (The "Research Hub")
+* **Journal Publications:** A chronological list of research papers published in peer-reviewed/UGC-care listed journals (Title, Journal Name, Year, Link to PDF/Abstract).
+* **PhD Guidance Portal:** * Current status of research scholars under his supervision.
+    * List of "Specializations" (e.g., American Literature, Indian Diaspora, Linguistics).
+    * Information for prospective PhD applicants.
+* **Conference Archive:** Record of papers presented at National and International seminars.
+
+### C. Academic Resources (The "Digital Classroom")
+* **MA English Repository:** Categorized folders for Semester I-IV (Syllabus, Question Banks, Reading Lists).
+* **SET/NET Coaching Corner:** Strategy articles, recommended reading, and PDF notes specifically for English Literature aspirants.
+* **Extension Activities:** Records of guest lectures, workshops organized, or departmental responsibilities.
+
+### D. The Literary Blog (The "Scholarly Journal")
+* **Content:** Instead of "Books," this serves as his intellectual output. Articles on literary theory, book reviews, and critiques of classic/modern literature.
+* **Multilingual Support:** Ability to publish in **English** (for academic work) and **Marathi/Hindi** (for local social/literary outreach).
+
+---
+
+## 4. Site Map (Information Architecture)
+
+| Page | Content / Modules |
+| :--- | :--- |
+| **Home** | Professional Photo, Short Bio, Latest Research Paper, Quick Links. |
+| **About** | Education Timeline, Teaching Experience (PGTD), Administrative Roles. |
+| **Research** | List of Journal Articles, PhD Supervision Details, Conference Participation. |
+| **Students' Corner** | MA Study Material, SET/NET Resources, Syllabus Downloads. |
+| **Insights (Blog)** | Literary Essays, Academic Musings, University News. |
+| **Contact** | Official University Address, Professional Email, Contact Form. |
+
+---
+
+## 5. Non-Functional Requirements (Technical)
+
+* **Mobile-First Design:** Optimized for 4G/Low-bandwidth areas common in the Gadchiroli region.
+* **Indexing/SEO:** The site should appear when searching for "English Professor Gondwana University" or his specific name.
+* **Clean Typography:** Using highly readable fonts (e.g., *Merriweather* for serif, *Lato* for sans-serif) to ensure long-form academic articles are easy to read.
+* **Minimalist Aesthetic:** Avoiding "flashy" animations; focusing on a "University White & Deep Blue" color palette.
+
+Technical Design Document (TDD)
+Project: Academic Portfolio 
+Architecture: Jamstack (JavaScript, API, & Markup)
+
+1. Technology Stack
+To ensure the site is modern yet extremely fast, I recommend the following:
+
+Frontend: Next.js (React Framework). It allows for Static Site Generation (SSG), meaning pages load almost instantly.
+
+Styling: Tailwind CSS. Provides a clean, professional, academic "look and feel" without bulky CSS files.
+
+Backend/CMS: Sanity.io or Strapi. This allows the Professor to upload research papers and SET notes via a simple "Form" interface without touching code.
+
+Database: PostgreSQL (via Supabase) if tracking "Hits/Views" on papers; otherwise, a Headless CMS is sufficient.
+
+Hosting: Vercel or Netlify. Free tier is usually enough for academic portfolios and includes a Global CDN.
+
+2. System Architecture
+The site will follow a decoupled architecture:
+
+Content Layer: All PDFs (Research Papers/Notes) and Blog text are stored in the CMS.
+
+Build Layer: When the Professor adds a new paper, the site automatically "rebuilds" to include the new data.
+
+Delivery Layer: The static files are served via CDN, ensuring the site works well even on 3G/4G mobile networks.
+
+3. Data Models (Schema)
+A. Research Paper Schema
+title: String
+
+journal_name: String (UGC Care list/Peer-reviewed)
+
+publication_date: Date
+
+doi_link: URL (Optional)
+
+pdf_file: File Upload (Cloudinary/S3)
+
+abstract: Text
+
+B. PhD Scholar Schema
+scholar_name: String
+
+research_topic: String
+
+status: Dropdown (Ongoing / Awarded)
+
+registration_year: Number
+
+C. Study Material Schema
+category: Dropdown (MA English / SET-NET / Syllabus)
+
+document_title: String
+
+file: File Upload
+
+4. Key Technical Features
+SEO & Metadata: Each research paper will have its own unique URL and OpenGraph tags. This ensures that when he shares a paper link, it appears professionally with a preview on WhatsApp or LinkedIn.
+
+PDF Viewer: Integration of react-pdf-viewer or simple browser-native embedding so students can read notes directly on the site without forced downloads.
+
+Search Functionality: A simple "Fuse.js" or "Algolia" search bar to help students find specific SET/NET topics or literary eras (e.g., "Elizabethan Drama").
+
+Responsive Images: Using Next.js Image component to automatically resize the Professor's portrait for mobile devices to save data.
+
+5. Deployment Strategy
+Repository: GitHub (Private/Public).
+
+CI/CD: Automatic deployment via Vercel. Every time the Professor updates the CMS, the site updates live.
+
+Domain: Pointing dr[name].com or [name].in to Vercel via CNAME records.
+
+6. Security & Performance
+SSL: Let's Encrypt (Automated via Vercel).
+
+Protection: Since there is no "User Login" for students, the site is inherently secure (Read-only for the public).
+
+Performance Goal: Aiming for a Google Lighthouse score of 95+ on Mobile/Desktop.
+
+1. Design Concept: "The Modern Library"Aesthetic: Minimalist, high contrast, and focused on typography.Color Palette: * Primary: Oxford Blue (#1B365D) – Represents authority and university tradition.Secondary: Ivory/Cream (#F9F7F2) – Easier on the eyes for long-form reading than pure white.Accent: Deep Gold (#C5A059) – For buttons, links, and highlights.Typography:Headings: Playfair Display (A classic Serif font for a literary feel).Body: Source Sans Pro or Inter (Clean Sans-serif for readability on small screens).2. Desktop UI Layout (1440px)The desktop view utilizes the horizontal space to establish the Professor's "Academic Standing."Header: Sticky navigation with links: Profile, Research, Students' Corner, Blog, Contact.Hero Section: A 2-column split.Left: Professional portrait with a subtle background texture (like old parchment or library shelves).Right: Name, Title (Assistant Professor), PGTD English, and high-level credentials (SET, PhD).Research Grid: 3-column grid showing paper titles with "Abstract" and "Download PDF" buttons.Footer: University affiliation, social links (LinkedIn/ResearchGate), and a "Visitor Counter" (as seen in your reference site).3. Mobile UI Layout (375px - 425px)The mobile version is optimized for "Thumb-Friendly" navigation and low-bandwidth loading.Navigation: A "Hamburger Menu" that slides in, ensuring the text remains the focus.Stacked Content: The 2-column Desktop Hero becomes a single vertical column. The portrait is centered at the top, followed by the Bio.Cards for Resources: Research papers and Study Materials are displayed as Full-Width Cards. This makes it easy for students to tap "Download" without accidental clicks.Bottom Navigation Bar (Optional): A quick-access bar for Home, Notes, and Search to help students find exam materials instantly.4. UI Elements & ComponentsComponentDesktop BehaviorMobile BehaviorPDF LibraryTable or Multi-column grid.Single-column list with large "Download" icons.Blog PostsLarge images with side-text summaries.Vertical cards with "Read Time" indicators.PhD Scholar ListInteractive table with "Year" and "Status".Accordion style (Tap name to expand details).Search BarTop right of header.Iconic search glass that expands to full screen.5. User Experience (UX) FeaturesDark Mode: A "Night Reader" mode is essential for students studying late. It should switch the background to charcoal and text to light grey.PDF Preview: Instead of forcing a download, use a "Quick View" modal so the user stays on the site.Fast Loading: Use "Skeleton Loaders" (grey boxes that show while content is loading) to improve the perceived speed on 4G networks.

@@ -1,0 +1,114 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Education {
+  id          String   @id @default(uuid())
+  degree      String
+  institution String
+  year        String
+  details     String
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Experience {
+  id          String   @id @default(uuid())
+  role        String
+  institution String
+  period      String
+  description String
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Publication {
+  id        String   @id @default(uuid())
+  title     String
+  journal   String
+  year      String
+  type      String
+  link      String?
+  abstract  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Scholar {
+  id        String   @id @default(uuid())
+  name      String
+  topic     String
+  status    String   // e.g., "Ongoing", "Awarded"
+  year      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Conference {
+  id        String   @id @default(uuid())
+  title     String
+  event     String
+  location  String
+  year      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ExtensionActivity {
+  id          String   @id @default(uuid())
+  title       String
+  type        String   // e.g., "Workshop", "Guest Lecture", "Role"
+  location    String
+  date        String
+  description String?
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model StudentCategory {
+  id          String            @id @default(uuid())
+  title       String
+  description String
+  order       Int               @default(0)
+  resources   StudentResource[]
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+}
+
+model StudentResource {
+  id         String          @id @default(uuid())
+  title      String
+  type       String          // e.g., "PDF", "Video", "DOCX"
+  size       String
+  url        String
+  categoryId String
+  category   StudentCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+}
+
+model BlogPost {
+  id          String   @id @default(uuid())
+  title       String
+  slug        String   @unique
+  excerpt     String
+  content     String   @db.Text
+  category    String   @default("Theory") // e.g., "Theory", "Reviews", "Essays"
+  author      String   @default("Dr. Atul M. Gavaskar")
+  date        DateTime @default(now())
+  readTime    String
+  language    String   @default("English")
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
