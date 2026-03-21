@@ -8,6 +8,16 @@ if (!databaseUrl) {
 }
 
 function normalizeDatabaseUrl(url: string) {
+  if (
+    url.includes('<project-ref>') ||
+    url.includes('<region>') ||
+    url.includes('YOUR_PASSWORD')
+  ) {
+    throw new Error(
+      'DATABASE_URL still contains placeholder values. Replace <project-ref>, <region>, and YOUR_PASSWORD with your real Supabase connection details.'
+    )
+  }
+
   const parsedUrl = new URL(url)
 
   if (parsedUrl.searchParams.get('sslmode') === 'require') {
