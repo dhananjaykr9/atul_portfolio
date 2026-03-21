@@ -6,8 +6,6 @@ import type { Education, Experience } from "@prisma/client";
 
 export const dynamic = 'force-dynamic';
 
-export const dynamic = 'force-dynamic';
-
 export default async function About() {
   const education = await prisma.education.findMany({ orderBy: { order: 'asc' } });
   const experience = await prisma.experience.findMany({ orderBy: { order: 'asc' } });
