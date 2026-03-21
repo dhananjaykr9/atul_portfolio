@@ -1,83 +1,157 @@
-"use client";
+﻿"use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const navLinks = [
   { name: "Home", href: "/" },
   { name: "Research", href: "/research" },
   { name: "Students' Corner", href: "/students" },
   { name: "Insights", href: "/blog" },
-   { name: "About", href: "/about" },
+  { name: "About", href: "/about" },
   { name: "Contact", href: "/contact" },
 ];
 
+function isActivePath(pathname: string, href: string) {
+  if (href === "/") {
+    return pathname === "/";
+  }
+
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+function MobileProfileMark({ isOpen }: { isOpen: boolean }) {
+  return (
+    <span className="relative flex h-12 w-12 items-center justify-center rounded-2xl border border-oxford-blue/10 bg-white/80 shadow-sm transition-all duration-300">
+      <span
+        className={`absolute h-[2px] rounded-full bg-oxford-blue transition-all duration-300 ${
+          isOpen ? "w-6 rotate-45" : "w-6 -translate-y-2.5"
+        }`}
+      />
+      <span
+        className={`absolute h-[2px] rounded-full bg-deep-gold transition-all duration-300 ${
+          isOpen ? "w-6 opacity-0" : "w-8"
+        }`}
+      />
+      <span
+        className={`absolute h-[2px] rounded-full bg-oxford-blue transition-all duration-300 ${
+          isOpen ? "w-6 -rotate-45" : "w-5 translate-y-2.5"
+        }`}
+      />
+      {!isOpen && (
+        <span className="absolute left-[11px] top-[11px] h-1.5 w-1.5 rounded-full bg-deep-gold/70" />
+      )}
+    </span>
+  );
+}
+
 export default function Navbar() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
+  useEffect(() => {
+    setIsOpen(false);
+  }, [pathname]);
+
   return (
-    <nav className="sticky top-0 z-50 bg-ivory/85 backdrop-blur-md border-b border-oxford-blue/10 shadow-sm transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-20 items-center">
-          <div className="flex-shrink-0 flex flex-col group">
-            <Link href="/" className="text-2xl font-serif font-bold text-oxford-blue tracking-tight group-hover:text-deep-gold transition-colors duration-500">
-              Dr. Atul M. Gavaskar
+    <nav className="sticky top-0 z-50 border-b border-oxford-blue/10 bg-ivory/85 shadow-[0_12px_35px_rgba(10,21,38,0.05)] backdrop-blur-xl transition-colors duration-300">
+      <div className="h-px w-full bg-gradient-to-r from-transparent via-deep-gold/70 to-transparent" />
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex min-h-[5.5rem] items-center justify-between gap-4 py-3">
+          <div className="min-w-0">
+            <Link href="/" className="group inline-flex flex-col">
+              <span className="max-w-[12rem] text-xl font-bold tracking-tight text-oxford-blue transition-colors duration-300 group-hover:text-deep-gold sm:max-w-none sm:text-2xl lg:text-[1.95rem]">
+                Dr. Atul M. Gavaskar
+              </span>
+              <span className="mt-1 text-[0.62rem] font-bold uppercase tracking-[0.32em] text-deep-gold/85 sm:text-[0.65rem]">
+                PGTD of English, Gondwana University
+              </span>
             </Link>
-            <span className="text-[10px] md:text-xs uppercase tracking-widest text-deep-gold/80 font-sans font-bold">
-              Post Graduate Teaching Department
-            </span>
-          </div>
-          
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="relative text-oxford-blue px-4 py-2 text-sm font-bold uppercase tracking-widest transition-colors duration-300 group"
-              >
-                <span className="relative z-10 group-hover:text-deep-gold transition-colors duration-300">{link.name}</span>
-                <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-deep-gold -translate-x-1/2 transition-all duration-300 ease-out group-hover:w-full opacity-0 group-hover:opacity-100"></span>
-              </Link>
-            ))}
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center space-x-4">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-oxford-blue hover:text-deep-gold focus:outline-none"
-            >
-              <span className="sr-only">Open main menu</span>
-              {!isOpen ? (
-                <svg className="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              ) : (
-                <svg className="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              )}
-            </button>
+          <div className="hidden lg:flex lg:items-center lg:gap-4">
+            <div className="flex items-center rounded-full border border-oxford-blue/10 bg-white/75 p-1.5 shadow-lg shadow-oxford-blue/5 backdrop-blur-md">
+              {navLinks.map((link) => {
+                const isActive = isActivePath(pathname, link.href);
+
+                return (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    prefetch
+                    className={`rounded-full px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.22em] transition-all duration-300 ${
+                      isActive
+                        ? "bg-oxford-blue text-ivory shadow-lg shadow-oxford-blue/15"
+                        : "text-oxford-blue/75 hover:bg-deep-gold/10 hover:text-deep-gold"
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                );
+              })}
+            </div>
           </div>
+
+          <button
+            type="button"
+            onClick={() => setIsOpen((open) => !open)}
+            className="group inline-flex items-center justify-center p-0 text-left transition-all duration-300 lg:hidden"
+            aria-expanded={isOpen}
+            aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+          >
+            <MobileProfileMark isOpen={isOpen} />
+          </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      <div className={`md:hidden overflow-hidden transition-all duration-500 ease-in-out ${isOpen ? "max-h-96 border-b border-oxford-blue/10" : "max-h-0"}`}>
-        <div className="bg-ivory/95 backdrop-blur-xl px-4 pt-2 pb-6 space-y-2 shadow-inner">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              className="text-oxford-blue block px-4 py-3 text-base font-bold uppercase tracking-widest border-l-2 border-transparent hover:border-deep-gold hover:text-deep-gold hover:bg-deep-gold/5 transition-all duration-300"
-              onClick={() => setIsOpen(false)}
-            >
-              {link.name}
-            </Link>
-          ))}
+      <div
+        className={`overflow-hidden border-t border-oxford-blue/8 bg-white/95 backdrop-blur-xl transition-all duration-500 lg:hidden ${
+          isOpen ? "max-h-[32rem] opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
+        <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6">
+          <div className="grid gap-2">
+            {navLinks.map((link, index) => {
+              const isActive = isActivePath(pathname, link.href);
+
+              return (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  prefetch
+                  className={`flex items-center justify-between rounded-[22px] border px-4 py-4 transition-all duration-300 ${
+                    isActive
+                      ? "border-oxford-blue bg-oxford-blue text-ivory shadow-lg shadow-oxford-blue/15"
+                      : "border-oxford-blue/8 bg-white text-oxford-blue hover:border-deep-gold/30 hover:bg-deep-gold/5"
+                  }`}
+                >
+                  <span className="flex items-center gap-3">
+                    <span
+                      className={`text-[10px] font-bold uppercase tracking-[0.25em] ${
+                        isActive ? "text-deep-gold/80" : "text-deep-gold"
+                      }`}
+                    >
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span className="text-sm font-semibold uppercase tracking-[0.16em]">
+                      {link.name}
+                    </span>
+                  </span>
+                  <span
+                    className={`text-lg transition-transform duration-300 ${
+                      isActive ? "translate-x-0 text-deep-gold/80" : "text-oxford-blue/35"
+                    }`}
+                  >
+                    &gt;
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
         </div>
       </div>
     </nav>
   );
 }
+

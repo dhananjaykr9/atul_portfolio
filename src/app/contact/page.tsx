@@ -15,12 +15,32 @@ const professionalChannels = [
     ),
   },
   {
+    label: "Personal Email",
+    value: "gavaskaratul@gmail.com",
+    href: "mailto:gavaskaratul@gmail.com",
+    icon: (
+      <svg className="h-6 w-6 sm:h-7 sm:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+      </svg>
+    ),
+  },
+  {
     label: "Phone Number",
     value: "9923104703",
     href: "tel:9923104703",
     icon: (
       <svg className="h-6 w-6 sm:h-7 sm:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+      </svg>
+    ),
+  },
+  {
+    label: "LinkedIn",
+    value: "View LinkedIn Profile",
+    href: "https://in.linkedin.com/in/atul-gavaskar-89b10734a?trk=org-employees",
+    icon: (
+      <svg className="h-6 w-6 sm:h-7 sm:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M7 8h.01M7 12v5m5-5v5m0-5a3 3 0 013 3v2m-3-5a3 3 0 00-3 3v2m3-5V8m5 9h1a1 1 0 001-1V7a1 1 0 00-1-1H6a1 1 0 00-1 1v9a1 1 0 001 1h1" />
       </svg>
     ),
   },
@@ -108,7 +128,13 @@ export default function Contact() {
                       );
 
                       return channel.href ? (
-                        <a key={channel.label} href={channel.href} className="group/item flex items-start gap-4 sm:gap-6">
+                        <a
+                          key={channel.label}
+                          href={channel.href}
+                          target={channel.href.startsWith("http") ? "_blank" : undefined}
+                          rel={channel.href.startsWith("http") ? "noreferrer" : undefined}
+                          className="group/item flex items-start gap-4 sm:gap-6"
+                        >
                           {content}
                         </a>
                       ) : (
@@ -127,11 +153,18 @@ export default function Contact() {
                     Academic Networks
                   </h4>
                   <div className="relative z-10 flex flex-wrap gap-3 sm:gap-4">
-                    {["ResearchGate", "Academia.edu", "Google Scholar", "LinkedIn"].map((net) => (
-                      <a key={net} href="#" className="rounded-full border border-white/10 bg-white/5 px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.2em] shadow-sm backdrop-blur-md transition-all duration-500 hover:border-deep-gold hover:bg-deep-gold hover:text-oxford-blue sm:px-6">
-                        {net}
-                      </a>
-                    ))}
+                    <a href="https://www.researchgate.net/" className="rounded-full border border-white/10 bg-white/5 px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.2em] shadow-sm backdrop-blur-md transition-all duration-500 hover:border-deep-gold hover:bg-deep-gold hover:text-oxford-blue sm:px-6">
+                      ResearchGate
+                    </a>
+                    <a href="https://www.academia.edu/" className="rounded-full border border-white/10 bg-white/5 px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.2em] shadow-sm backdrop-blur-md transition-all duration-500 hover:border-deep-gold hover:bg-deep-gold hover:text-oxford-blue sm:px-6">
+                      Academia.edu
+                    </a>
+                    <a href="https://scholar.google.com/" className="rounded-full border border-white/10 bg-white/5 px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.2em] shadow-sm backdrop-blur-md transition-all duration-500 hover:border-deep-gold hover:bg-deep-gold hover:text-oxford-blue sm:px-6">
+                      Google Scholar
+                    </a>
+                    <a href="https://in.linkedin.com/in/atul-gavaskar-89b10734a?trk=org-employees" className="rounded-full border border-white/10 bg-white/5 px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.2em] shadow-sm backdrop-blur-md transition-all duration-500 hover:border-deep-gold hover:bg-deep-gold hover:text-oxford-blue sm:px-6">
+                      LinkedIn
+                    </a>
                   </div>
                 </div>
               </div>
@@ -173,4 +206,3 @@ export default function Contact() {
     </>
   );
 }
-

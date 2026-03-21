@@ -4,7 +4,7 @@ import Container from "@/components/Container";
 import { prisma } from "@/lib/prisma";
 import type { Publication, Scholar, Conference } from "@prisma/client";
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 300;
 
 export default async function Research() {
   const publications = await prisma.publication.findMany({

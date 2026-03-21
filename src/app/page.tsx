@@ -7,7 +7,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import type { Publication } from "@prisma/client";
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 300;
 
 export default async function Home() {
   // Fetch the 2 most recently added publications

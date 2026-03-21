@@ -30,15 +30,18 @@ export default function Footer() {
               Maharashtra, India.
             </p>
             <div className="flex flex-wrap gap-x-5 gap-y-3 pt-2 sm:pt-4">
-              <a href="#" className="text-xs font-bold uppercase tracking-[0.2em] text-ivory/50 transition-colors duration-300 hover:text-deep-gold sm:text-sm">
+              <a
+                href="https://in.linkedin.com/in/atul-gavaskar-89b10734a?trk=org-employees"
+                className="text-xs font-bold uppercase tracking-[0.2em] text-ivory/50 transition-colors duration-300 hover:text-deep-gold sm:text-sm"
+              >
                 LinkedIn
               </a>
-              <a href="#" className="text-xs font-bold uppercase tracking-[0.2em] text-ivory/50 transition-colors duration-300 hover:text-deep-gold sm:text-sm">
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-ivory/50 sm:text-sm">
                 ResearchGate
-              </a>
-              <a href="#" className="text-xs font-bold uppercase tracking-[0.2em] text-ivory/50 transition-colors duration-300 hover:text-deep-gold sm:text-sm">
+              </span>
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-ivory/50 sm:text-sm">
                 Google Scholar
-              </a>
+              </span>
             </div>
           </div>
 
@@ -81,6 +84,27 @@ export default function Footer() {
               </p>
               <p className="relative z-10 pr-8 break-all text-sm font-serif font-bold tracking-wide text-ivory transition-colors group-hover:text-white sm:break-normal sm:text-base">
                 gavaskar.atul@unigug.ac.in
+              </p>
+              <svg
+                className="absolute bottom-5 right-5 h-5 w-5 text-ivory/30 transition-all duration-500 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-deep-gold"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+
+            <a
+              href="mailto:gavaskaratul@gmail.com"
+              className="group relative block overflow-hidden rounded-2xl border border-ivory/10 bg-ivory/5 p-5 backdrop-blur-md transition-all duration-500 hover:-translate-y-1 hover:border-deep-gold/40 hover:bg-ivory/10 hover:shadow-xl hover:shadow-deep-gold/10 sm:p-6"
+            >
+              <div className="absolute -mr-4 -mt-4 right-0 top-0 h-24 w-24 rounded-bl-full bg-deep-gold/10 transition-transform duration-700 group-hover:scale-150"></div>
+              <p className="relative z-10 mb-1 text-[10px] font-bold uppercase tracking-widest text-deep-gold">
+                Personal Email
+              </p>
+              <p className="relative z-10 pr-8 break-all text-sm font-serif font-bold tracking-wide text-ivory transition-colors group-hover:text-white sm:break-normal sm:text-base">
+                gavaskaratul@gmail.com
               </p>
               <svg
                 className="absolute bottom-5 right-5 h-5 w-5 text-ivory/30 transition-all duration-500 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-deep-gold"

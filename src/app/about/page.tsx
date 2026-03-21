@@ -4,7 +4,7 @@ import Container from "@/components/Container";
 import { prisma } from "@/lib/prisma";
 import type { Education, Experience } from "@prisma/client";
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 300;
 
 export default async function About() {
   const education = await prisma.education.findMany({ orderBy: { order: 'asc' } });

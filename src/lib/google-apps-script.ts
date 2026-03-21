@@ -10,6 +10,19 @@ function getRequiredEnv(name: string) {
   return value;
 }
 
+function formatIstTimestamp(date: Date) {
+  return `${new Intl.DateTimeFormat('en-IN', {
+    timeZone: 'Asia/Kolkata',
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: true,
+  }).format(date)} IST`;
+}
+
 export async function appendContactMessageViaAppsScript(data: {
   name: string;
   email: string;
@@ -24,7 +37,7 @@ export async function appendContactMessageViaAppsScript(data: {
       'Content-Type': 'text/plain;charset=utf-8',
     },
     body: JSON.stringify({
-      submittedAt: new Date().toISOString(),
+      submittedAt: formatIstTimestamp(new Date()),
       name: data.name,
       email: data.email,
       subject: data.subject,
