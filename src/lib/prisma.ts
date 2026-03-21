@@ -1,6 +1,5 @@
 import { PrismaPg } from '@prisma/adapter-pg'
 import { PrismaClient } from '@prisma/client'
-import { Pool } from 'pg'
 
 const databaseUrl = process.env.DATABASE_URL
 
@@ -22,26 +21,20 @@ function normalizeDatabaseUrl(url: string) {
 const normalizedDatabaseUrl = normalizeDatabaseUrl(databaseUrl)
 
 type GlobalPrismaCache = typeof globalThis & {
-  __teacherPortfolioPgPool__?: Pool
   __teacherPortfolioPrisma__?: PrismaClient
 }
 
 const globalCache = globalThis as GlobalPrismaCache
 
-const pool =
-  globalCache.__teacherPortfolioPgPool__ ??
-  new Pool({
-    connectionString: normalizedDatabaseUrl,
-  })
-
 const prisma =
   globalCache.__teacherPortfolioPrisma__ ??
   new PrismaClient({
-    adapter: new PrismaPg(pool),
+    adapter: new PrismaPg({
+      connectionString: normalizedDatabaseUrl,
+    }),
   })
 
 if (process.env.NODE_ENV !== 'production') {
-  globalCache.__teacherPortfolioPgPool__ = pool
   globalCache.__teacherPortfolioPrisma__ = prisma
 }
 
