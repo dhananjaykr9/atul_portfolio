@@ -65,7 +65,7 @@ export default function Navbar() {
                 Dr. Atul M. Gavaskar
               </span>
               <span className="mt-0.5 text-[0.58rem] font-bold uppercase tracking-[0.28em] text-deep-gold/85 sm:text-[0.62rem]">
-                Assitant Professor, PGTD of English
+                Assistant  Professor, PGTD of English
               </span>
             </Link>
           </div>
