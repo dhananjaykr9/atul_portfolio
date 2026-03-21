@@ -4,7 +4,7 @@ import Container from "@/components/Container";
 import Button from "@/components/Button";
 import StudentResourcesClient from "./StudentResourcesClient";
 import { prisma } from "@/lib/prisma";
-import type { ExtensionActivity } from "@prisma/client";
+import type { StudentCategory, StudentResource, ExtensionActivity } from "@prisma/client";
 
 export const dynamic = 'force-dynamic';
 

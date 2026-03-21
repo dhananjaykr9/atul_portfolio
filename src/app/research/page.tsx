@@ -7,6 +7,8 @@ import type { Publication, Scholar, Conference } from "@prisma/client";
 
 export const dynamic = 'force-dynamic';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Research() {
   const publications = await prisma.publication.findMany({
     orderBy: { year: 'desc' }
