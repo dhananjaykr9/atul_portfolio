@@ -7,11 +7,6 @@ export type ContactFormState = {
   message: string;
 };
 
-export const initialContactFormState: ContactFormState = {
-  status: 'idle',
-  message: '',
-};
-
 function getString(formData: FormData, key: string) {
   const value = formData.get(key);
   return typeof value === 'string' ? value.trim() : '';
