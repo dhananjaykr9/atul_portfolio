@@ -1,18 +1,12 @@
-import { Pool } from 'pg'
-import { PrismaPg } from '@prisma/adapter-pg'
 import { PrismaClient } from '@prisma/client'
 
-const connectionString = `${process.env.DATABASE_URL}`
-
 const prismaClientSingleton = () => {
-  // During build, return a dummy PrismaClient that doesn't connect
-  if (!process.env.DATABASE_URL || process.env.DATABASE_URL === 'undefined') {
-    return new PrismaClient()
+  // During build, we don't need a real Prisma Client
+  if (process.env.NEXT_PHASE === 'phase-production-build') {
+    return {} as PrismaClient
   }
 
-  const pool = new Pool({ connectionString })
-  const adapter = new PrismaPg(pool as any)
-  return new PrismaClient({ adapter })
+  return new PrismaClient()
 }
 
 type PrismaClientSingleton = ReturnType<typeof prismaClientSingleton>
