@@ -1,29 +1,48 @@
+import { PrismaPg } from '@prisma/adapter-pg'
 import { PrismaClient } from '@prisma/client'
+import { Pool } from 'pg'
 
-// Robust singleton for PrismaClient to handle Vercel's build/runtime lifecycle
-const prismaClientSingleton = () => {
-  return new PrismaClient()
+const databaseUrl = process.env.DATABASE_URL
+
+if (!databaseUrl) {
+  throw new Error('DATABASE_URL is not set')
 }
 
-type PrismaClientSingleton = ReturnType<typeof prismaClientSingleton>
+function normalizeDatabaseUrl(url: string) {
+  const parsedUrl = new URL(url)
 
-const globalForPrisma = globalThis as unknown as {
-  prisma: PrismaClientSingleton | undefined
-}
-
-// We use a Proxy to lazy-load the Prisma client only when a query is actually called.
-// This prevents Prisma from trying to connect during the Vercel build phase.
-export const prisma = new Proxy({} as PrismaClient, {
-  get: (target, prop) => {
-    if (!globalForPrisma.prisma) {
-      // Return empty object/function if we're in the build phase to avoid instantiation
-      if (process.env.NEXT_PHASE === 'phase-production-build') {
-        return ({} as any)[prop]
-      }
-      globalForPrisma.prisma = prismaClientSingleton()
-    }
-    return (globalForPrisma.prisma as any)[prop]
+  if (parsedUrl.searchParams.get('sslmode') === 'require') {
+    // Preserve the current secure behavior expected by pg while silencing the deprecation warning.
+    parsedUrl.searchParams.set('sslmode', 'verify-full')
   }
-})
 
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
+  return parsedUrl.toString()
+}
+
+const normalizedDatabaseUrl = normalizeDatabaseUrl(databaseUrl)
+
+type GlobalPrismaCache = typeof globalThis & {
+  __teacherPortfolioPgPool__?: Pool
+  __teacherPortfolioPrisma__?: PrismaClient
+}
+
+const globalCache = globalThis as GlobalPrismaCache
+
+const pool =
+  globalCache.__teacherPortfolioPgPool__ ??
+  new Pool({
+    connectionString: normalizedDatabaseUrl,
+  })
+
+const prisma =
+  globalCache.__teacherPortfolioPrisma__ ??
+  new PrismaClient({
+    adapter: new PrismaPg(pool),
+  })
+
+if (process.env.NODE_ENV !== 'production') {
+  globalCache.__teacherPortfolioPgPool__ = pool
+  globalCache.__teacherPortfolioPrisma__ = prisma
+}
+
+export { prisma }
