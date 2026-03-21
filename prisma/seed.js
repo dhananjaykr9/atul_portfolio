@@ -1,6 +1,29 @@
+require('dotenv/config');
+
+const { PrismaPg } = require('@prisma/adapter-pg');
 const { PrismaClient } = require('@prisma/client');
 
-const prisma = new PrismaClient();
+function normalizeDatabaseUrl(url) {
+  const parsedUrl = new URL(url);
+
+  if (parsedUrl.searchParams.get('sslmode') === 'require') {
+    parsedUrl.searchParams.set('sslmode', 'verify-full');
+  }
+
+  return parsedUrl.toString();
+}
+
+const databaseUrl = process.env.DATABASE_URL;
+
+if (!databaseUrl) {
+  throw new Error('DATABASE_URL is not set');
+}
+
+const prisma = new PrismaClient({
+  adapter: new PrismaPg({
+    connectionString: normalizeDatabaseUrl(databaseUrl),
+  }),
+});
 
 async function main() {
   console.log("Seeding database with default academic content...");
