@@ -67,6 +67,7 @@ export default function Navbar() {
                   src="/logo.png"
                   alt="Dr. Atul M. Gavaskar Logo"
                   fill
+                  sizes="(max-width: 640px) 40px, 48px"
                   className="object-contain"
                   priority
                 />

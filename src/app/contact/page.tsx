@@ -63,6 +63,7 @@ export default function Contact() {
                     src="/logo.png"
                     alt="Dr. Atul M. Gavaskar Logo"
                     fill
+                    sizes="80px"
                     className="object-contain"
                   />
                 </div>

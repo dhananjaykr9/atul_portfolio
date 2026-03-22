@@ -26,6 +26,7 @@ export default function Footer() {
                   src="/logo.png"
                   alt="Dr. Atul M. Gavaskar Logo"
                   fill
+                  sizes="48px"
                   className="object-contain"
                 />
               </div>
