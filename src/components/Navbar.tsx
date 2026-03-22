@@ -1,8 +1,9 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -60,13 +61,24 @@ export default function Navbar() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-[4.6rem] items-center justify-between gap-4">
           <div className="min-w-0">
-            <Link href="/" className="group inline-flex flex-col">
-              <span className="max-w-[12rem] text-xl font-bold tracking-tight text-oxford-blue transition-colors duration-300 group-hover:text-deep-gold sm:max-w-none sm:text-[1.8rem] lg:text-[1.95rem]">
-                Dr. Atul M. Gavaskar
-              </span>
-              <span className="mt-0.5 text-[0.58rem] font-bold uppercase tracking-[0.28em] text-deep-gold/85 sm:text-[0.62rem]">
-                Assistant  Professor, PGTD of English
-              </span>
+            <Link href="/" className="group inline-flex items-center gap-4">
+              <div className="relative h-10 w-10 overflow-hidden rounded-xl border border-oxford-blue/10 bg-white/50 p-1 shadow-sm transition-transform duration-500 group-hover:scale-105 group-hover:shadow-md sm:h-12 sm:w-12">
+                <Image
+                  src="/logo.png"
+                  alt="Dr. Atul M. Gavaskar Logo"
+                  fill
+                  className="object-contain"
+                  priority
+                />
+              </div>
+              <div className="flex flex-col">
+                <span className="max-w-[12rem] text-xl font-bold tracking-tight text-oxford-blue transition-colors duration-300 group-hover:text-deep-gold sm:max-w-none sm:text-[1.8rem] lg:text-[1.95rem]">
+                  Dr. Atul M. Gavaskar
+                </span>
+                <span className="mt-0.5 text-[0.58rem] font-bold uppercase tracking-[0.28em] text-deep-gold/85 sm:text-[0.62rem]">
+                  Assistant Professor, PGTD of English
+                </span>
+              </div>
             </Link>
           </div>
 
