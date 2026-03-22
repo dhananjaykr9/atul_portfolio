@@ -1,4 +1,5 @@
-﻿import Link from "next/link";
+import Link from "next/link";
+import Image from "next/image";
 
 const navItems = [
   { label: "About Me", href: "/about" },
@@ -19,9 +20,19 @@ export default function Footer() {
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-10 sm:gap-12 md:grid-cols-3 md:gap-10 lg:gap-12">
           <div className="space-y-5 sm:space-y-6">
-            <h2 className="bg-gradient-to-r from-ivory to-ivory/70 bg-clip-text text-2xl font-serif font-bold tracking-tight text-transparent sm:text-3xl">
-              Dr. Atul M. Gavaskar
-            </h2>
+            <div className="flex items-center gap-4">
+              <div className="relative h-12 w-12 overflow-hidden rounded-2xl border border-ivory/10 bg-ivory/5 p-1 shadow-lg backdrop-blur-md transition-transform duration-500 hover:scale-110">
+                <Image
+                  src="/logo.png"
+                  alt="Dr. Atul M. Gavaskar Logo"
+                  fill
+                  className="object-contain"
+                />
+              </div>
+              <h2 className="bg-gradient-to-r from-ivory to-ivory/70 bg-clip-text text-2xl font-serif font-bold tracking-tight text-transparent sm:text-3xl">
+                Dr. Atul M. Gavaskar
+              </h2>
+            </div>
             <p className="max-w-sm text-sm leading-relaxed text-ivory/70 font-sans">
               Assistant Professor, Post Graduate Teaching Department of English,
               <br />

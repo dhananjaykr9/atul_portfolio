@@ -14,8 +14,12 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Dr. Atul M. Gavaskar | Academic Portfolio",
+  title: "Dr. Atul M. Gavaskar",
   description: "Official Academic Portfolio of Dr. Atul M. Gavaskar, Post Graduate Teaching Department of English, Gondwana University, Gadchiroli.",
+  icons: {
+    icon: "/logo.png",
+    apple: "/logo.png",
+  },
 };
 
 import { ThemeProvider } from "@/components/ThemeProvider";

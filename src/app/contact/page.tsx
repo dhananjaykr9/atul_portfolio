@@ -1,7 +1,8 @@
-﻿import Navbar from "@/components/Navbar";
+import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Container from "@/components/Container";
 import ContactForm from "@/app/contact/ContactForm";
+import Image from "next/image";
 
 const professionalChannels = [
   {
@@ -56,15 +57,25 @@ export default function Contact() {
           <Container className="relative z-10">
             <div className="relative max-w-3xl animate-in fade-in slide-in-from-bottom-8 duration-700">
               <div className="absolute -right-8 -top-10 h-40 w-40 rounded-full bg-deep-gold/10 blur-[100px] sm:-right-20 sm:-top-20 sm:h-64 sm:w-64 -z-10 animate-pulse"></div>
-              <h2 className="mb-4 flex items-center text-sm font-bold uppercase tracking-widest text-deep-gold font-sans">
-                <span className="mr-3 h-px w-8 bg-deep-gold/50"></span>
-                Official Channels
-              </h2>
-              <h1 className="bg-gradient-to-r from-ivory to-ivory/70 bg-clip-text text-4xl font-serif font-bold leading-tight tracking-tight text-transparent sm:text-5xl lg:text-7xl">
-                Get in Touch with
-                <br />
-                Dr. Atul
-              </h1>
+              <div className="flex flex-col sm:flex-row items-center gap-6 mb-8 text-center sm:text-left">
+                <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-2xl border-2 border-white/20 bg-white p-2 shadow-2xl animate-in fade-in zoom-in duration-1000">
+                  <Image
+                    src="/logo.png"
+                    alt="Dr. Atul M. Gavaskar Logo"
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+                <div className="flex flex-col justify-center">
+                  <h2 className="flex items-center justify-center sm:justify-start text-sm font-bold uppercase tracking-widest text-deep-gold font-sans mb-1">
+                    <span className="mr-3 h-px w-8 bg-deep-gold/50 hidden sm:block"></span>
+                    Official Channels
+                  </h2>
+                  <h1 className="bg-gradient-to-r from-ivory to-ivory/70 bg-clip-text text-4xl font-serif font-bold leading-tight tracking-tight text-transparent sm:text-5xl lg:text-6xl">
+                    Get in Touch with Dr. Atul
+                  </h1>
+                </div>
+              </div>
               <p className="mt-6 max-w-2xl border-l-2 border-deep-gold/30 pl-4 text-base leading-relaxed text-ivory/70 font-sans sm:text-lg md:text-xl">
                 For academic inquiries, research collaborations, or student support,
                 please reach out through our professional communication channels.
